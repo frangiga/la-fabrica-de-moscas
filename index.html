@@ -137,23 +137,20 @@ canvas {
   box-shadow: 0 0 15px var(--radar-green);
   text-shadow: none;
 }
-/* Footer estructurado en 2 columnas */
+/* Footer estructurado en 2 columnas centradas */
 footer {
   width: 100%;
   margin-top: 5px;
   padding-top: 8px;
   border-top: 1px solid var(--radar-dim);
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   font-size: 0.72rem;
   color: #7dcf97;
 }
-.footer-left {
-  text-align: left;
-}
-.footer-right {
-  text-align: right;
+.footer-col {
+  text-align: center;
 }
 footer a {
   color: var(--radar-bright);
@@ -252,12 +249,13 @@ footer a:hover {
   font-size: 0.8rem;
   line-height: 1.45;
   color: #d0ffd0;
-  text-align: left;
+  text-align: center;
   width: 100%;
 }
 .instructions-list ul {
-  margin-left: 18px;
+  list-style: none;
   margin-top: 6px;
+  padding-left: 0;
 }
 .instructions-list li {
   margin-bottom: 6px;
@@ -313,10 +311,10 @@ footer a:hover {
   <div class="instructions" id="instruction-text">ESPERANDO INICIO...</div>
   
   <footer>
-    <div class="footer-left">
+    <div class="footer-col">
       <a href="https://www.geocaching.com/plan/lists/BMFC2Z7" target="_blank">GeoPaterna</a>
     </div>
-    <div class="footer-right">
+    <div class="footer-col">
       <a href="https://www.geocaching.com/p/?guid=8aa34b6e-769c-42e2-ab66-4163f9a40e13&amp;wid=9b106a24-4eef-41ab-8a06-c207d4143cb1&amp;ds=2" target="_blank">fran_giga</a>
     </div>
   </footer>
