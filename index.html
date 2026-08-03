@@ -6,11 +6,13 @@
   <title>Biofábrica Caudete - Control de Liberación</title>
   <style>
     :root {
-      --bg-color: #080f0b;
+      --bg-color: #050b07;
       --radar-green: #00ff66;
-      --radar-dim: rgba(0, 255, 102, 0.15);
+      --radar-bright: #33ff88;
+      --radar-dim: rgba(0, 255, 102, 0.2);
       --alert-red: #ff3344;
-      --panel-bg: #0d1a12;
+      --text-yellow: #ffff44;
+      --panel-bg: #0a160d;
       --font-family: 'Courier New', Courier, monospace;
     }
 
@@ -30,7 +32,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
       padding: 10px;
     }
 
@@ -39,7 +41,7 @@
       background: var(--panel-bg);
       border: 2px solid var(--radar-green);
       border-radius: 8px;
-      box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+      box-shadow: 0 0 25px rgba(0, 255, 102, 0.25);
       width: 100%;
       max-width: 480px;
       padding: 15px;
@@ -58,16 +60,18 @@
     }
 
     h1 {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      text-shadow: 0 0 5px var(--radar-green);
+      text-shadow: 0 0 8px var(--radar-green);
+      color: #ffffff;
     }
 
     .subtitle {
-      font-size: 0.7rem;
-      opacity: 0.8;
-      margin-top: 2px;
+      font-size: 0.72rem;
+      color: var(--radar-bright);
+      margin-top: 3px;
+      letter-spacing: 0.5px;
     }
 
     /* Indicadores de estado */
@@ -75,11 +79,12 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
-      font-size: 0.8rem;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 6px 10px;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px 12px;
       border-radius: 4px;
       border: 1px solid var(--radar-dim);
+      font-weight: bold;
     }
 
     /* Radar Canvas */
@@ -89,9 +94,9 @@
       height: 280px;
       border-radius: 50%;
       border: 2px solid var(--radar-green);
-      box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.3), 0 0 10px rgba(0, 255, 102, 0.2);
+      box-shadow: inset 0 0 20px rgba(0, 255, 102, 0.35), 0 0 12px rgba(0, 255, 102, 0.25);
       overflow: hidden;
-      background: radial-gradient(circle, #05140b 0%, #020a05 100%);
+      background: radial-gradient(circle, #051a0e 0%, #010803 100%);
       cursor: crosshair;
     }
 
@@ -101,35 +106,71 @@
       height: 100%;
     }
 
-    /* Mensajes e Instrucciones */
+    /* Mensajes e Instrucciones - Visibilidad Mejorada */
     .instructions {
-      font-size: 0.75rem;
+      font-size: 0.88rem;
+      font-weight: bold;
       text-align: center;
-      line-height: 1.3;
-      color: #a3ffc2;
-      min-height: 32px;
+      line-height: 1.4;
+      color: var(--text-yellow);
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 68, 0.4);
+      border-radius: 6px;
+      padding: 10px 12px;
+      width: 100%;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-shadow: 0 0 6px rgba(255, 255, 68, 0.6);
+      box-shadow: 0 0 8px rgba(255, 255, 68, 0.15);
     }
 
     /* Botón de control */
     .btn {
-      background: rgba(0, 255, 102, 0.1);
+      background: rgba(0, 255, 102, 0.15);
       color: var(--radar-green);
-      border: 1px solid var(--radar-green);
-      padding: 10px 20px;
+      border: 2px solid var(--radar-green);
+      padding: 12px 24px;
       font-family: var(--font-family);
       font-weight: bold;
-      font-size: 0.9rem;
-      border-radius: 4px;
+      font-size: 0.95rem;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
       text-transform: uppercase;
       letter-spacing: 1px;
+      text-shadow: 0 0 5px var(--radar-green);
     }
 
     .btn:hover, .btn:active {
       background: var(--radar-green);
       color: var(--bg-color);
-      box-shadow: 0 0 10px var(--radar-green);
+      box-shadow: 0 0 15px var(--radar-green);
+      text-shadow: none;
+    }
+
+    /* Footer con firma */
+    footer {
+      width: 100%;
+      margin-top: 5px;
+      padding-top: 8px;
+      border-top: 1px solid var(--radar-dim);
+      text-align: center;
+      font-size: 0.72rem;
+      color: #7dcf97;
+    }
+
+    footer a {
+      color: var(--radar-bright);
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--text-yellow);
+      text-shadow: 0 0 5px var(--text-yellow);
     }
 
     /* Pantalla final / Modal de victoria */
@@ -139,7 +180,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(5, 15, 9, 0.95);
+      background: rgba(4, 14, 8, 0.96);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -160,47 +201,52 @@
 
     .victory-badge {
       border: 2px dashed var(--radar-green);
-      padding: 15px;
+      padding: 20px 15px;
       border-radius: 6px;
       width: 100%;
-      background: rgba(0, 255, 102, 0.05);
+      background: rgba(0, 255, 102, 0.06);
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
     }
 
     .victory-title {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
       color: var(--radar-green);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 8px var(--radar-green);
     }
 
     .certitude-box {
       margin: 15px 0;
-      padding: 10px;
-      background: #000;
-      border: 1px solid var(--radar-green);
-      border-radius: 4px;
+      padding: 12px;
+      background: #000000;
+      border: 2px solid var(--radar-green);
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
     }
 
     .certitude-label {
-      font-size: 0.7rem;
-      opacity: 0.8;
+      font-size: 0.75rem;
+      color: var(--radar-bright);
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
     }
 
     .certitude-code {
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       font-weight: bold;
       color: #ffffff;
-      text-shadow: 0 0 8px var(--radar-green);
-      white-space: nowrap; /* Garantiza que la palabra nunca rompa en 2 líneas */
-      letter-spacing: 1px;
+      text-shadow: 0 0 10px var(--radar-green);
+      white-space: nowrap;
+      letter-spacing: 1.5px;
     }
 
     /* Estilo scanline CRT retro */
     .scanline {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
       background-size: 100% 4px;
       pointer-events: none;
       border-radius: 8px;
@@ -218,8 +264,8 @@
     </header>
 
     <div class="status-bar">
-      <span>FOCOS TRATADOS: <strong id="score">0</strong>/5</span>
-      <span>ESTADO: <strong id="sys-status" style="color:var(--radar-green);">OPERATIVO</strong></span>
+      <span>NIVEL: <strong id="level-display" style="color:var(--text-yellow);">1/5</strong></span>
+      <span>TRATADOS: <strong id="score-display" style="color:var(--radar-green);">0/25</strong></span>
     </div>
 
     <div class="radar-container" id="radar-box">
@@ -227,17 +273,21 @@
     </div>
 
     <div class="instructions" id="instruction-text">
-      Pulse "INICIAR RADAR" y toque sobre los focos de plaga cuando el scanner pase sobre ellos.
+      Pulse "INICIAR RADAR" para comenzar el despliegue sobre Caudete de las Fuentes.
     </div>
 
     <button class="btn" id="start-btn">INICIAR RADAR</button>
+
+    <footer>
+      Diseñado por <a href="https://www.geocaching.com/p/default.aspx?u=GeoPaterna" target="_blank">GeoPaterna</a> &amp; <a href="https://github.com/fran-giga" target="_blank">fran_giga</a>
+    </footer>
 
     <!-- Modal de Victoria -->
     <div class="modal-overlay" id="victory-modal">
       <div class="victory-badge">
         <div class="victory-title">¡PLAGA NEUTRALIZADA!</div>
-        <p style="font-size: 0.75rem; line-height: 1.4; color: #d0ffd0;">
-          Comarca protegida con éxito mediante machos estériles de <em>Ceratitis capitata</em>.
+        <p style="font-size: 0.8rem; line-height: 1.4; color: #d0ffd0; margin-bottom: 8px;">
+          Comarca protegida con éxito en las 5 fases mediante machos estériles de <em>Ceratitis capitata</em>.
         </p>
 
         <div class="certitude-box">
@@ -245,7 +295,7 @@
           <span class="certitude-code">NO-TE-MOSQUEES</span>
         </div>
 
-        <button class="btn" onclick="location.reload()" style="font-size: 0.75rem; padding: 6px 12px;">REPETIR MISIÓN</button>
+        <button class="btn" onclick="location.reload()" style="font-size: 0.8rem; padding: 8px 16px; margin-top: 5px;">REPETIR MISIÓN</button>
       </div>
     </div>
   </div>
@@ -254,8 +304,8 @@
     const canvas = document.getElementById('radarCanvas');
     const ctx = canvas.getContext('2d');
     const startBtn = document.getElementById('start-btn');
-    const scoreEl = document.getElementById('score');
-    const statusEl = document.getElementById('sys-status');
+    const scoreEl = document.getElementById('score-display');
+    const levelEl = document.getElementById('level-display');
     const instructionEl = document.getElementById('instruction-text');
     const victoryModal = document.getElementById('victory-modal');
     const radarBox = document.getElementById('radar-box');
@@ -266,12 +316,26 @@
 
     let gameActive = false;
     let score = 0;
-    const TARGET_SCORE = 5;
+    const TOTAL_TARGETS = 25;
+    const TARGETS_PER_LEVEL = 5;
+    let currentLevel = 1;
+
     let sweepAngle = 0;
+    let sweepSpeed = 0.035;
+    let targetLifetime = 4200;
+    
     let targets = [];
     let animationFrameId = null;
+    let targetTimeoutId = null;
 
-    // Generador de audio retro sintético
+    const levelConfigs = [
+      { speed: 0.035, lifetime: 4200, label: "FASE 1: RASTREO BÁSICO" },
+      { speed: 0.048, lifetime: 3400, label: "FASE 2: DETECCIÓN RÁPIDA" },
+      { speed: 0.062, lifetime: 2700, label: "FASE 3: ALTA DENSIDAD DE PLAGA" },
+      { speed: 0.078, lifetime: 2100, label: "FASE 4: INTERVENCIÓN URGENTE" },
+      { speed: 0.095, lifetime: 1600, label: "FASE 5: BARRIDO ALTA VELOCIDAD" }
+    ];
+
     function playBeep(freq = 440, type = 'sine', duration = 0.1) {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -279,21 +343,19 @@
         const gain = audioCtx.createGain();
         osc.type = type;
         osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
         osc.stop(audioCtx.currentTime + duration);
-      } catch (e) { /* Audio no permitido hasta interacción */ }
+      } catch (e) { }
     }
 
-    // Dibujar fondo de radar táctico
     function drawRadarGrid() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Círculos concéntricos
-      ctx.strokeStyle = 'rgba(0, 255, 102, 0.2)';
+      ctx.strokeStyle = 'rgba(0, 255, 102, 0.25)';
       ctx.lineWidth = 1;
       for (let r = 1; r <= 3; r++) {
         ctx.beginPath();
@@ -301,7 +363,6 @@
         ctx.stroke();
       }
 
-      // Ejes cruzados
       ctx.beginPath();
       ctx.moveTo(CENTER_X, 10);
       ctx.lineTo(CENTER_X, canvas.height - 10);
@@ -310,130 +371,150 @@
       ctx.stroke();
     }
 
-    // Generar un nuevo foco de plaga en una posición aleatoria dentro del radar
     function spawnTarget() {
-      if (targets.length >= 1 || score >= TARGET_SCORE) return;
-      const dist = Math.random() * (RADIUS - 40) + 20;
+      if (!gameActive || score >= TOTAL_TARGETS) return;
+      
+      if (targetTimeoutId) clearTimeout(targetTimeoutId);
+
+      const dist = Math.random() * (RADIUS - 50) + 25;
       const angle = Math.random() * Math.PI * 2;
-      targets.push({
+      
+      const newTarget = {
+        id: Date.now(),
         x: CENTER_X + Math.cos(angle) * dist,
         y: CENTER_Y + Math.sin(angle) * dist,
-        angle: angle < 0 ? angle + Math.PI * 2 : angle,
-        size: 14,
-        hit: false
-      });
-      playBeep(300, 'sawtooth', 0.15);
+        size: 16,
+        createdAt: Date.now()
+      };
+      
+      targets = [newTarget];
+      playBeep(320, 'sawtooth', 0.12);
+
+      targetTimeoutId = setTimeout(() => {
+        if (gameActive && targets.length > 0) {
+          playBeep(200, 'square', 0.2);
+          instructionEl.textContent = "¡Foco perdido! Reactivando escáner...";
+          targets = [];
+          setTimeout(spawnTarget, 500);
+        }
+      }, targetLifetime);
     }
 
-    // Bucle principal de animación
     function update() {
       if (!gameActive) return;
 
       drawRadarGrid();
 
-      // Ángulo actual del barrenado/radar (0 a 2*PI)
-      sweepAngle += 0.03;
+      sweepAngle += sweepSpeed;
       if (sweepAngle >= Math.PI * 2) sweepAngle = 0;
 
-      // Dibujar abanico del scanner
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(CENTER_X, CENTER_Y);
-      ctx.arc(CENTER_X, CENTER_Y, RADIUS, sweepAngle - 0.3, sweepAngle);
+      ctx.arc(CENTER_X, CENTER_Y, RADIUS, sweepAngle - 0.35, sweepAngle);
       ctx.closePath();
       const gradient = ctx.createRadialGradient(CENTER_X, CENTER_Y, 0, CENTER_X, CENTER_Y, RADIUS);
       gradient.addColorStop(0, 'rgba(0, 255, 102, 0)');
-      gradient.addColorStop(1, 'rgba(0, 255, 102, 0.25)');
+      gradient.addColorStop(1, 'rgba(0, 255, 102, 0.3)');
       ctx.fillStyle = gradient;
       ctx.fill();
       ctx.restore();
 
-      // Línea principal de barrido
       ctx.beginPath();
       ctx.moveTo(CENTER_X, CENTER_Y);
       ctx.lineTo(CENTER_X + Math.cos(sweepAngle) * RADIUS, CENTER_Y + Math.sin(sweepAngle) * RADIUS);
-      ctx.strokeStyle = 'rgba(0, 255, 102, 0.8)';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(0, 255, 102, 0.9)';
+      ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Dibujar y gestionar focos de plaga
       targets.forEach((t) => {
         ctx.beginPath();
         ctx.arc(t.x, t.y, t.size / 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 51, 68, 0.8)';
+        ctx.fillStyle = 'rgba(255, 51, 68, 0.95)';
         ctx.shadowColor = '#ff3344';
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 10;
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Anillo de pulso de plaga
-        ctx.strokeStyle = '#ff3344';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.5;
         ctx.stroke();
       });
 
       animationFrameId = requestAnimationFrame(update);
     }
 
-    // Manejar pulsación sobre la pantalla
+    function applyLevelConfig() {
+      const config = levelConfigs[currentLevel - 1];
+      sweepSpeed = config.speed;
+      targetLifetime = config.lifetime;
+      levelEl.textContent = `${currentLevel}/5`;
+      instructionEl.textContent = `${config.label}: Toca los focos de plaga (${score}/${TOTAL_TARGETS})`;
+    }
+
     function handleTap(e) {
-      if (!gameActive) return;
+      if (!gameActive || targets.length === 0) return;
 
       const rect = canvas.getBoundingClientRect();
       const clickX = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
       const clickY = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
 
-      targets.forEach((t, index) => {
-        const dist = Math.hypot(clickX - t.x, clickY - t.y);
-        // Si toca dentro de la zona del foco
-        if (dist <= t.size + 10) {
-          score++;
-          scoreEl.textContent = score;
-          playBeep(880, 'sine', 0.2); // Sonido de acierto
-          targets.splice(index, 1);
+      const t = targets[0];
+      const dist = Math.hypot(clickX - t.x, clickY - t.y);
 
-          if (score >= TARGET_SCORE) {
-            endGame();
-          } else {
-            instructionEl.textContent = "¡Descarga de estériles efectuada! Buscando siguiente foco...";
-            setTimeout(spawnTarget, 800);
-          }
+      if (dist <= t.size + 12) {
+        if (targetTimeoutId) clearTimeout(targetTimeoutId);
+        score++;
+        scoreEl.textContent = `${score}/25`;
+        playBeep(880 + (score * 20), 'sine', 0.15);
+        targets = [];
+
+        const calculatedLevel = Math.min(Math.floor(score / TARGETS_PER_LEVEL) + 1, 5);
+        if (calculatedLevel > currentLevel && score < TOTAL_TARGETS) {
+          currentLevel = calculatedLevel;
+          applyLevelConfig();
+          playBeep(1200, 'triangle', 0.25);
+        } else {
+          instructionEl.textContent = `¡Descarga efectuada! (${score}/${TOTAL_TARGETS})`;
         }
-      });
+
+        if (score >= TOTAL_TARGETS) {
+          endGame();
+        } else {
+          setTimeout(spawnTarget, 400);
+        }
+      }
     }
 
     function startGame() {
       score = 0;
-      scoreEl.textContent = score;
+      currentLevel = 1;
+      scoreEl.textContent = `0/25`;
       targets = [];
       gameActive = true;
       startBtn.style.display = 'none';
-      instructionEl.textContent = "Buscando focos de plaga... Toca sobre el punto rojo cuando aparezca.";
-      statusEl.textContent = "RASTREANDO";
-      statusEl.style.color = "var(--radar-green)";
-      
+
+      applyLevelConfig();
       spawnTarget();
       update();
     }
 
     function endGame() {
       gameActive = false;
+      if (targetTimeoutId) clearTimeout(targetTimeoutId);
       cancelAnimationFrame(animationFrameId);
-      statusEl.textContent = "COMPLETADO";
-      instructionEl.textContent = "Sector completamente libre de plaga.";
-      playBeep(523, 'triangle', 0.3);
-      setTimeout(() => playBeep(659, 'triangle', 0.4), 150);
+      instructionEl.textContent = "¡Misión completada! Toda la comarca ha sido tratada.";
+      playBeep(523, 'triangle', 0.25);
+      setTimeout(() => playBeep(659, 'triangle', 0.3), 150);
+      setTimeout(() => playBeep(784, 'triangle', 0.4), 300);
 
-      // Mostrar pantalla final con la clave
       victoryModal.classList.add('active');
     }
 
-    // Eventos
     startBtn.addEventListener('click', startGame);
     radarBox.addEventListener('touchstart', (e) => { e.preventDefault(); handleTap(e); }, {passive: false});
     radarBox.addEventListener('mousedown', handleTap);
 
-    // Dibujar radar inicial en reposo
     drawRadarGrid();
   </script>
 </body>
