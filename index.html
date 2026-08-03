@@ -52,6 +52,35 @@
       position: relative;
     }
 
+    /* Selector de Idiomas Multi-lenguaje */
+    .lang-selector {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+      gap: 5px;
+      margin-bottom: -2px;
+    }
+
+    .lang-btn {
+      background: rgba(0, 255, 102, 0.08);
+      color: var(--radar-bright);
+      border: 1px solid var(--radar-green);
+      padding: 3px 6px;
+      font-family: var(--font-family);
+      font-size: 0.7rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active, .lang-btn:hover {
+      background: var(--radar-green);
+      color: var(--bg-color);
+      box-shadow: 0 0 8px var(--radar-green);
+    }
+
     header {
       text-align: center;
       width: 100%;
@@ -60,7 +89,7 @@
     }
 
     h1 {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       text-shadow: 0 0 8px var(--radar-green);
@@ -68,7 +97,7 @@
     }
 
     .subtitle {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--radar-bright);
       margin-top: 3px;
       letter-spacing: 0.5px;
@@ -106,7 +135,39 @@
       height: 100%;
     }
 
-    /* Mensajes e Instrucciones - Visibilidad Mejorada */
+    /* Cuadro de Instrucciones Previas */
+    .pre-game-instructions {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px dashed var(--radar-green);
+      border-radius: 6px;
+      padding: 12px;
+      width: 100%;
+      font-size: 0.8rem;
+      line-height: 1.45;
+      color: #d0ffd0;
+      text-align: left;
+    }
+
+    .pre-game-instructions h2 {
+      font-size: 0.88rem;
+      color: var(--text-yellow);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 5px rgba(255, 255, 68, 0.5);
+      text-align: center;
+    }
+
+    .pre-game-instructions ul {
+      margin-left: 18px;
+      margin-top: 4px;
+    }
+
+    .pre-game-instructions li {
+      margin-bottom: 4px;
+    }
+
+    /* Mensajes e Instrucciones durante el juego */
     .instructions {
       font-size: 0.88rem;
       font-weight: bold;
@@ -119,7 +180,7 @@
       padding: 10px 12px;
       width: 100%;
       min-height: 52px;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       text-shadow: 0 0 6px rgba(255, 255, 68, 0.6);
@@ -258,44 +319,64 @@
   <div class="game-card">
     <div class="scanline"></div>
 
+    <!-- Selector de idioma multi-lenguaje -->
+    <div class="lang-selector">
+      <button class="lang-btn active" data-lang="es">ES</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="de">DE</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="nl">NL</button>
+      <button class="lang-btn" data-lang="pt">PT</button>
+    </div>
+
     <header>
-      <h1>BIOFÁBRICA CAUDETE</h1>
-      <div class="subtitle">SISTEMA DE CONTROL DE LIBERACIÓN AÉREA</div>
+      <h1 id="txt-title">BIOFÁBRICA CAUDETE</h1>
+      <div class="subtitle" id="txt-subtitle">SISTEMA DE CONTROL DE LIBERACIÓN AÉREA</div>
     </header>
 
     <div class="status-bar">
-      <span>NIVEL: <strong id="level-display" style="color:var(--text-yellow);">1/5</strong></span>
-      <span>TRATADOS: <strong id="score-display" style="color:var(--radar-green);">0/25</strong></span>
+      <span><span id="lbl-level">NIVEL</span>: <strong id="level-display" style="color:var(--text-yellow);">1/5</strong></span>
+      <span><span id="lbl-score">TRATADOS</span>: <strong id="score-display" style="color:var(--radar-green);">0/25</strong></span>
     </div>
 
     <div class="radar-container" id="radar-box">
       <canvas id="radarCanvas" width="280" height="280"></canvas>
     </div>
 
-    <div class="instructions" id="instruction-text">
-      Pulse "INICIAR RADAR" para comenzar el despliegue sobre Caudete de las Fuentes.
+    <!-- Instrucciones previas antes de empezar -->
+    <div class="pre-game-instructions" id="pre-instructions">
+      <h2 id="txt-prep-title">📋 INSTRUCCIONES DE MISIÓN</h2>
+      <p id="txt-prep-desc">Debes neutralizar la plaga liberando machos estériles de <em>Ceratitis capitata</em> sobre los frutales de Caudete de las Fuentes:</p>
+      <ul>
+        <li id="txt-step-1">Toca/pulsa sobre cada <strong>foco rojo</strong> cuando aparezca en la pantalla del radar.</li>
+        <li id="txt-step-2">Supera las <strong>5 fases</strong> de dificultad creciente (25 focos en total).</li>
+        <li id="txt-step-3">Al completar el barrido total, se desbloqueará la clave para <strong>Certitude</strong>.</li>
+      </ul>
     </div>
+
+    <!-- Mensaje durante la partida -->
+    <div class="instructions" id="instruction-text"></div>
 
     <button class="btn" id="start-btn">INICIAR RADAR</button>
 
     <footer>
-      Diseñado por <a href="https://www.geocaching.com/p/default.aspx?u=GeoPaterna" target="_blank">GeoPaterna</a> &amp; <a href="https://github.com/fran-giga" target="_blank">fran_giga</a>
+      <span id="lbl-designed">Diseñado por</span> <a href="https://www.geocaching.com/p/default.aspx?u=GeoPaterna" target="_blank">GeoPaterna</a> &amp; <a href="https://github.com/fran-giga" target="_blank">fran_giga</a>
     </footer>
 
     <!-- Modal de Victoria -->
     <div class="modal-overlay" id="victory-modal">
       <div class="victory-badge">
-        <div class="victory-title">¡PLAGA NEUTRALIZADA!</div>
-        <p style="font-size: 0.8rem; line-height: 1.4; color: #d0ffd0; margin-bottom: 8px;">
+        <div class="victory-title" id="txt-vic-title">¡PLAGA NEUTRALIZADA!</div>
+        <p style="font-size: 0.8rem; line-height: 1.4; color: #d0ffd0; margin-bottom: 8px;" id="txt-vic-desc">
           Comarca protegida con éxito en las 5 fases mediante machos estériles de <em>Ceratitis capitata</em>.
         </p>
 
         <div class="certitude-box">
-          <span class="certitude-label">CLAVE PARA CERTITUDE:</span>
+          <span class="certitude-label" id="lbl-certitude">CLAVE PARA CERTITUDE:</span>
           <span class="certitude-code">NO-TE-MOSQUEES</span>
         </div>
 
-        <button class="btn" onclick="location.reload()" style="font-size: 0.8rem; padding: 8px 16px; margin-top: 5px;">REPETIR MISIÓN</button>
+        <button class="btn" onclick="location.reload()" style="font-size: 0.8rem; padding: 8px 16px; margin-top: 5px;" id="txt-repeat-btn">REPETIR MISIÓN</button>
       </div>
     </div>
   </div>
@@ -306,9 +387,210 @@
     const startBtn = document.getElementById('start-btn');
     const scoreEl = document.getElementById('score-display');
     const levelEl = document.getElementById('level-display');
+    const preInstructionsEl = document.getElementById('pre-instructions');
     const instructionEl = document.getElementById('instruction-text');
     const victoryModal = document.getElementById('victory-modal');
     const radarBox = document.getElementById('radar-box');
+
+    let currentLang = 'es';
+
+    const translations = {
+      es: {
+        title: "BIOFÁBRICA CAUDETE",
+        subtitle: "SISTEMA DE CONTROL DE LIBERACIÓN AÉREA",
+        lblLevel: "NIVEL",
+        lblScore: "TRATADOS",
+        prepTitle: "📋 INSTRUCCIONES DE MISIÓN",
+        prepDesc: "Debes neutralizar la plaga liberando machos estériles de <em>Ceratitis capitata</em> sobre los frutales de Caudete de las Fuentes:",
+        step1: "Toca/pulsa sobre cada <strong>foco rojo</strong> cuando aparezca en el radar.",
+        step2: "Supera las <strong>5 fases</strong> de dificultad creciente (25 focos en total).",
+        step3: "Al completar el barrido total, se desbloqueará la clave para <strong>Certitude</strong>.",
+        startBtn: "INICIAR RADAR",
+        designed: "Diseñado por",
+        vicTitle: "¡PLAGA NEUTRALIZADA!",
+        vicDesc: "Comarca protegida con éxito en las 5 fases mediante machos estériles de <em>Ceratitis capitata</em>.",
+        certLabel: "CLAVE PARA CERTITUDE:",
+        repeatBtn: "REPETIR MISIÓN",
+        missed: "¡Foco perdido! Reactivando escáner...",
+        discharged: "¡Descarga efectuada!",
+        completed: "¡Misión completada! Toda la comarca ha sido tratada.",
+        levels: [
+          "FASE 1: RASTREO BÁSICO",
+          "FASE 2: DETECCIÓN RÁPIDA",
+          "FASE 3: ALTA DENSIDAD DE PLAGA",
+          "FASE 4: INTERVENCIÓN URGENTE",
+          "FASE 5: BARRIDO ALTA VELOCIDAD"
+        ]
+      },
+      en: {
+        title: "CAUDETE BIOFACTORY",
+        subtitle: "AERIAL RELEASE CONTROL SYSTEM",
+        lblLevel: "LEVEL",
+        lblScore: "TREATED",
+        prepTitle: "📋 MISSION INSTRUCTIONS",
+        prepDesc: "Neutralize the pest by releasing sterile male <em>Ceratitis capitata</em> over Caudete de las Fuentes orchards:",
+        step1: "Tap/click each <strong>red outbreak</strong> as it appears on the radar screen.",
+        step2: "Complete all <strong>5 phases</strong> of increasing difficulty (25 targets total).",
+        step3: "Upon complete area coverage, the <strong>Certitude</strong> keyword will be revealed.",
+        startBtn: "START RADAR",
+        designed: "Designed by",
+        vicTitle: "PEST NEUTRALIZED!",
+        vicDesc: "Region successfully protected across all 5 phases using sterile male <em>Ceratitis capitata</em>.",
+        certLabel: "CERTITUDE KEYWORD:",
+        repeatBtn: "REPLAY MISSION",
+        missed: "Target lost! Reactivating scanner...",
+        discharged: "Release successful!",
+        completed: "Mission complete! Entire area fully treated.",
+        levels: [
+          "PHASE 1: BASIC SCANNING",
+          "PHASE 2: FAST DETECTION",
+          "PHASE 3: HIGH PEST DENSITY",
+          "PHASE 4: URGENT ACTION",
+          "PHASE 5: HIGH-SPEED SWEEP"
+        ]
+      },
+      de: {
+        title: "BIOFABRIK CAUDETE",
+        subtitle: "LUFTFREISETZUNGS-STEUERUNGSSYSTEM",
+        lblLevel: "LEVEL",
+        lblScore: "BEHANDELT",
+        prepTitle: "📋 MISSIONSINSTRUKTIONEN",
+        prepDesc: "Bekämpfen Sie den Schädling durch Freisetzen steriler Männchen von <em>Ceratitis capitata</em> über den Obstgärten von Caudete de las Fuentes:",
+        step1: "Tippen Sie auf jeden <strong>roten Herd</strong>, sobald er auf dem Radar erscheint.",
+        step2: "Meistern Sie <strong>5 Phasen</strong> mit steigendem Schwierigkeitsgrad (insgesamt 25 Herde).",
+        step3: "Nach vollständiger Abdeckung wird das Passwort für <strong>Certitude</strong> freigeschaltet.",
+        startBtn: "RADAR STARTEN",
+        designed: "Entworfen von",
+        vicTitle: "SCHÄDLING NEUTRALISIERT!",
+        vicDesc: "Region in allen 5 Phasen erfolgreich mit sterilen Männchen von <em>Ceratitis capitata</em> geschützt.",
+        certLabel: "CERTITUDE PASSWORT:",
+        repeatBtn: "MISSION WIEDERHOLEN",
+        missed: "Ziel verloren! Scanner wird reaktiviert...",
+        discharged: "Freisetzung erfolgreich!",
+        completed: "Mission abgeschlossen! Das gesamte Gebiet wurde behandelt.",
+        levels: [
+          "PHASE 1: BASIS-SCANNEN",
+          "PHASE 2: SCHNELLE ERFASSUNG",
+          "PHASE 3: HOHE SCHÄDLINGSDICHTE",
+          "PHASE 4: DRINGENDER EINSATZ",
+          "PHASE 5: HOCHGESCHWINDIGKEITS-BARRAGE"
+        ]
+      },
+      fr: {
+        title: "BIOFABRIQUE CAUDETE",
+        subtitle: "SYSTÈME DE CONTRÔLE DE LÂCHER AÉRIEN",
+        lblLevel: "NIVEAU",
+        lblScore: "TRAITÉS",
+        prepTitle: "📋 INSTRUCTIONS DE MISSION",
+        prepDesc: "Neutralisez le ravageur en lâchant des mâles stériles de <em>Ceratitis capitata</em> sur les vergers de Caudete de las Fuentes :",
+        step1: "Appuyez sur chaque <strong>foyer rouge</strong> dès qu'il apparaît sur le radar.",
+        step2: "Franchissez les <strong>5 phases</strong> de difficulté croissante (25 foyers au total).",
+        step3: "Une fois le traitement terminé, le mot de passe <strong>Certitude</strong> sera révélé.",
+        startBtn: "LANCER LE RADAR",
+        designed: "Conçu par",
+        vicTitle: "RAVAGEUR NEUTRALISÉ !",
+        vicDesc: "Région protégée avec succès sur les 5 phases grâce aux mâles stériles de <em>Ceratitis capitata</em>.",
+        certLabel: "MOT DE PASSE CERTITUDE :",
+        repeatBtn: "REJOUER LA MISSION",
+        missed: "Cible perdue ! Réactivation du scanner...",
+        discharged: "Lâcher effectué !",
+        completed: "Mission accomplie ! Toute la zone a été traitée.",
+        levels: [
+          "PHASE 1 : BALAYAGE DE BASE",
+          "PHASE 2 : DÉTECTION RAPIDE",
+          "PHASE 3 : FORTE DENSITÉ DE PARASITES",
+          "PHASE 4 : INTERVENTION URGENTE",
+          "PHASE 5 : BALAYAGE HAUTE VITESSE"
+        ]
+      },
+      nl: {
+        title: "BIOFABRIEK CAUDETE",
+        subtitle: "LUCHTLATEN-BESTURINGSSYSTEEM",
+        lblLevel: "NIVEAU",
+        lblScore: "BEHANDELD",
+        prepTitle: "📋 MISSIE-INSTRUCTIES",
+        prepDesc: "Bestrijd de plaag door steriele mannetjes van <em>Ceratitis capitata</em> los te laten boven de boomgaarden van Caudete de las Fuentes:",
+        step1: "Tik op elke <strong>rode haard</strong> zodra deze op het radarscherm verschijnt.",
+        step2: "Voltooi alle <strong>5 fasen</strong> van toenemende moeilijkheidsgraad (25 haarden in totaal).",
+        step3: "Na volledige dekking wordt de sleutel voor <strong>Certitude</strong> ontgrendeld.",
+        startBtn: "RADAR STARTEN",
+        designed: "Ontworpen door",
+        vicTitle: "PLAAG GENEUTRALISEERD!",
+        vicDesc: "Regio succesvol beschermd in alle 5 fasen met steriele mannetjes van <em>Ceratitis capitata</em>.",
+        certLabel: "CERTITUDE SLEUTEL:",
+        repeatBtn: "MISSIE HERHALEN",
+        missed: "Doel verloren! Scanner heractiveren...",
+        discharged: "Vrijlating geslaagd!",
+        completed: "Missie voltooid! Het gehele gebied is behandeld.",
+        levels: [
+          "FASE 1: BASIS SCANNING",
+          "FASE 2: SNELLER DETECTIE",
+          "FASE 3: HOGE PLAAGDICHTHEID",
+          "FASE 4: DRINGENDE ACTIE",
+          "FASE 5: HOGESNELHEIDSVEEG"
+        ]
+      },
+      pt: {
+        title: "BIOFÁBRICA CAUDETE",
+        subtitle: "SISTEMA DE CONTROLO DE LIBERTAÇÃO AÉREA",
+        lblLevel: "NÍVEL",
+        lblScore: "TRATADOS",
+        prepTitle: "📋 INSTRUÇÕES DA MISSÃO",
+        prepDesc: "Neutralize a praga libertando machos estéreis de <em>Ceratitis capitata</em> sobre os pomares de Caudete de las Fuentes:",
+        step1: "Toque/clique em cada <strong>foco vermelho</strong> assim que aparecer no radar.",
+        step2: "Supera as <strong>5 fases</strong> de dificuldade crescente (25 focos no total).",
+        step3: "Ao completar a cobertura total, a palavra-chave para o <strong>Certitude</strong> será revelada.",
+        startBtn: "INICIAR RADAR",
+        designed: "Desenhado por",
+        vicTitle: "PRAGA NEUTRALIZADA!",
+        vicDesc: "Região protegida com sucesso nas 5 fases utilizando machos estéreis de <em>Ceratitis capitata</em>.",
+        certLabel: "PALAVRA-CHAVE CERTITUDE:",
+        repeatBtn: "REPETIR MISSÃO",
+        missed: "Alvo perdido! Reativando scanner...",
+        discharged: "Libertação efetuada!",
+        completed: "Missão cumprida! Toda a região foi tratada.",
+        levels: [
+          "FASE 1: VARREDRUBA BÁSICA",
+          "FASE 2: DETEÇÃO RÁPIDA",
+          "FASE 3: ALTA DENSIDADE DE PRAGA",
+          "FASE 4: INTERVENÇÃO URGENTE",
+          "FASE 5: VARREDURA ALTA VELOCIDADE"
+        ]
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      document.getElementById('txt-title').textContent = t.title;
+      document.getElementById('txt-subtitle').textContent = t.subtitle;
+      document.getElementById('lbl-level').textContent = t.lblLevel;
+      document.getElementById('lbl-score').textContent = t.lblScore;
+      document.getElementById('txt-prep-title').textContent = t.prepTitle;
+      document.getElementById('txt-prep-desc').innerHTML = t.prepDesc;
+      document.getElementById('txt-step-1').innerHTML = t.step1;
+      document.getElementById('txt-step-2').innerHTML = t.step2;
+      document.getElementById('txt-step-3').innerHTML = t.step3;
+      startBtn.textContent = t.startBtn;
+      document.getElementById('lbl-designed').textContent = t.designed;
+      document.getElementById('txt-vic-title').textContent = t.vicTitle;
+      document.getElementById('txt-vic-desc').innerHTML = t.vicDesc;
+      document.getElementById('lbl-certitude').textContent = t.certLabel;
+      document.getElementById('txt-repeat-btn').textContent = t.repeatBtn;
+
+      if (gameActive) {
+        applyLevelConfig();
+      }
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => setLanguage(e.target.dataset.lang));
+    });
 
     const CENTER_X = canvas.width / 2;
     const CENTER_Y = canvas.height / 2;
@@ -328,12 +610,12 @@
     let animationFrameId = null;
     let targetTimeoutId = null;
 
-    const levelConfigs = [
-      { speed: 0.035, lifetime: 4200, label: "FASE 1: RASTREO BÁSICO" },
-      { speed: 0.048, lifetime: 3400, label: "FASE 2: DETECCIÓN RÁPIDA" },
-      { speed: 0.062, lifetime: 2700, label: "FASE 3: ALTA DENSIDAD DE PLAGA" },
-      { speed: 0.078, lifetime: 2100, label: "FASE 4: INTERVENCIÓN URGENTE" },
-      { speed: 0.095, lifetime: 1600, label: "FASE 5: BARRIDO ALTA VELOCIDAD" }
+    const levelBaseConfigs = [
+      { speed: 0.035, lifetime: 4200 },
+      { speed: 0.048, lifetime: 3400 },
+      { speed: 0.062, lifetime: 2700 },
+      { speed: 0.078, lifetime: 2100 },
+      { speed: 0.095, lifetime: 1600 }
     ];
 
     function playBeep(freq = 440, type = 'sine', duration = 0.1) {
@@ -393,7 +675,7 @@
       targetTimeoutId = setTimeout(() => {
         if (gameActive && targets.length > 0) {
           playBeep(200, 'square', 0.2);
-          instructionEl.textContent = "¡Foco perdido! Reactivando escáner...";
+          instructionEl.textContent = translations[currentLang].missed;
           targets = [];
           setTimeout(spawnTarget, 500);
         }
@@ -445,11 +727,12 @@
     }
 
     function applyLevelConfig() {
-      const config = levelConfigs[currentLevel - 1];
+      const config = levelBaseConfigs[currentLevel - 1];
+      const levelLabel = translations[currentLang].levels[currentLevel - 1];
       sweepSpeed = config.speed;
       targetLifetime = config.lifetime;
       levelEl.textContent = `${currentLevel}/5`;
-      instructionEl.textContent = `${config.label}: Toca los focos de plaga (${score}/${TOTAL_TARGETS})`;
+      instructionEl.textContent = `${levelLabel}: (${score}/${TOTAL_TARGETS})`;
     }
 
     function handleTap(e) {
@@ -475,7 +758,7 @@
           applyLevelConfig();
           playBeep(1200, 'triangle', 0.25);
         } else {
-          instructionEl.textContent = `¡Descarga efectuada! (${score}/${TOTAL_TARGETS})`;
+          instructionEl.textContent = `${translations[currentLang].discharged} (${score}/${TOTAL_TARGETS})`;
         }
 
         if (score >= TOTAL_TARGETS) {
@@ -493,6 +776,8 @@
       targets = [];
       gameActive = true;
       startBtn.style.display = 'none';
+      preInstructionsEl.style.display = 'none';
+      instructionEl.style.display = 'flex';
 
       applyLevelConfig();
       spawnTarget();
@@ -503,7 +788,7 @@
       gameActive = false;
       if (targetTimeoutId) clearTimeout(targetTimeoutId);
       cancelAnimationFrame(animationFrameId);
-      instructionEl.textContent = "¡Misión completada! Toda la comarca ha sido tratada.";
+      instructionEl.textContent = translations[currentLang].completed;
       playBeep(523, 'triangle', 0.25);
       setTimeout(() => playBeep(659, 'triangle', 0.3), 150);
       setTimeout(() => playBeep(784, 'triangle', 0.4), 300);
