@@ -1,856 +1,164 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Biofábrica Caudete - Control de Liberación</title>
-  <style>
-    :root {
-      --bg-color: #050b07;
-      --radar-green: #00ff66;
-      --radar-bright: #33ff88;
-      --radar-dim: rgba(0, 255, 102, 0.2);
-      --alert-red: #ff3344;
-      --text-yellow: #ffff44;
-      --panel-bg: #0a160d;
-      --font-family: 'Courier New', Courier, monospace;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--radar-green);
-      font-family: var(--font-family);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding: 10px;
-    }
-
-    /* Contenedor principal */
-    .game-card {
-      background: var(--panel-bg);
-      border: 2px solid var(--radar-green);
-      border-radius: 8px;
-      box-shadow: 0 0 25px rgba(0, 255, 102, 0.25);
-      width: 100%;
-      max-width: 480px;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      position: relative;
-    }
-
-    header {
-      text-align: center;
-      width: 100%;
-      border-bottom: 1px solid var(--radar-dim);
-      padding-bottom: 8px;
-    }
-
-    h1 {
-      font-size: 1.15rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      text-shadow: 0 0 8px var(--radar-green);
-      color: #ffffff;
-    }
-
-    .subtitle {
-      font-size: 0.7rem;
-      color: var(--radar-bright);
-      margin-top: 3px;
-      letter-spacing: 0.5px;
-    }
-
-    /* Indicadores de estado */
-    .status-bar {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      font-size: 0.85rem;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 8px 12px;
-      border-radius: 4px;
-      border: 1px solid var(--radar-dim);
-      font-weight: bold;
-    }
-
-    /* Radar Canvas */
-    .radar-container {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      border: 2px solid var(--radar-green);
-      box-shadow: inset 0 0 20px rgba(0, 255, 102, 0.35), 0 0 12px rgba(0, 255, 102, 0.25);
-      overflow: hidden;
-      background: radial-gradient(circle, #051a0e 0%, #010803 100%);
-      cursor: crosshair;
-    }
-
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Mensajes e Instrucciones durante el juego */
-    .instructions {
-      font-size: 0.88rem;
-      font-weight: bold;
-      text-align: center;
-      line-height: 1.4;
-      color: var(--text-yellow);
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 68, 0.4);
-      border-radius: 6px;
-      padding: 10px 12px;
-      width: 100%;
-      min-height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-shadow: 0 0 6px rgba(255, 255, 68, 0.6);
-      box-shadow: 0 0 8px rgba(255, 255, 68, 0.15);
-    }
-
-    /* Botones genéricos */
-    .btn {
-      background: rgba(0, 255, 102, 0.15);
-      color: var(--radar-green);
-      border: 2px solid var(--radar-green);
-      padding: 10px 20px;
-      font-family: var(--font-family);
-      font-weight: bold;
-      font-size: 0.9rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 0 0 5px var(--radar-green);
-    }
-
-    .btn:hover, .btn:active {
-      background: var(--radar-green);
-      color: var(--bg-color);
-      box-shadow: 0 0 15px var(--radar-green);
-      text-shadow: none;
-    }
-
-    /* Footer estructurado en 3 columnas ajustadas */
-    footer {
-      width: 100%;
-      margin-top: 5px;
-      padding-top: 8px;
-      border-top: 1px solid var(--radar-dim);
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      font-size: 0.72rem;
-      color: #7dcf97;
-    }
-
-    .footer-left {
-      text-align: left;
-    }
-
-    .footer-center {
-      text-align: center;
-      padding: 0 4px;
-      opacity: 0.8;
-    }
-
-    .footer-right {
-      text-align: right;
-    }
-
-    footer a {
-      color: var(--radar-bright);
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.2s;
-    }
-
-    footer a:hover {
-      color: var(--text-yellow);
-      text-shadow: 0 0 5px var(--text-yellow);
-    }
-
-    /* Modales / Ventanas Emergentes */
-    .modal-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(4, 14, 8, 0.97);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      text-align: center;
-      border-radius: 6px;
-      z-index: 10;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-box {
-      border: 2px dashed var(--radar-green);
-      padding: 20px 16px;
-      border-radius: 6px;
-      width: 100%;
-      background: rgba(0, 255, 102, 0.05);
-      box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .modal-title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: var(--text-yellow);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 0 0 5px rgba(255, 255, 68, 0.5);
-    }
-
-    /* Grid de banderas */
-    .lang-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      width: 100%;
-      margin-top: 5px;
-    }
-
-    .lang-card-btn {
-      background: rgba(0, 255, 102, 0.08);
-      border: 1px solid var(--radar-green);
-      padding: 10px 5px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .lang-card-btn:hover, .lang-card-btn:active {
-      background: rgba(0, 255, 102, 0.3);
-      box-shadow: 0 0 12px var(--radar-green);
-      transform: scale(1.03);
-    }
-
-    .flag-icon {
-      width: 38px;
-      height: 26px;
-      border-radius: 3px;
-      box-shadow: 0 0 4px rgba(0,0,0,0.5);
-      object-fit: cover;
-    }
-
-    .instructions-list {
-      font-size: 0.8rem;
-      line-height: 1.45;
-      color: #d0ffd0;
-      text-align: left;
-      width: 100%;
-    }
-
-    .instructions-list ul {
-      margin-left: 18px;
-      margin-top: 6px;
-    }
-
-    .instructions-list li {
-      margin-bottom: 6px;
-    }
-
-    .certitude-box {
-      margin: 8px 0;
-      padding: 12px;
-      background: #000000;
-      border: 2px solid var(--radar-green);
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
-      width: 100%;
-    }
-
-    .certitude-label {
-      font-size: 0.75rem;
-      color: var(--radar-bright);
-      display: block;
-      margin-bottom: 6px;
-      letter-spacing: 1px;
-    }
-
-    .certitude-code {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #ffffff;
-      text-shadow: 0 0 10px var(--radar-green);
-      white-space: nowrap;
-      letter-spacing: 1.5px;
-    }
-
-    .scanline {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
-      background-size: 100% 4px;
-      pointer-events: none;
-      border-radius: 8px;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="game-card">
-    <div class="scanline"></div>
-
-    <header>
-      <h1 id="txt-title">BIOFÁBRICA CAUDETE</h1>
-      <div class="subtitle" id="txt-subtitle">SISTEMA DE CONTROL DE LIBERACIÓN AÉREA</div>
-    </header>
-
-    <div class="status-bar">
-      <span><span id="lbl-level">NIVEL</span>: <strong id="level-display" style="color:var(--text-yellow);">1/5</strong></span>
-      <span><span id="lbl-score">TRATADOS</span>: <strong id="score-display" style="color:var(--radar-green);">0/25</strong></span>
-    </div>
-
-    <div class="radar-container" id="radar-box">
-      <canvas id="radarCanvas" width="280" height="280"></canvas>
-    </div>
-
-    <div class="instructions" id="instruction-text">ESPERANDO INICIO...</div>
-
-    <footer>
-      <div class="footer-left">
-        <a href="https://www.geocaching.com/p/?guid=8aa34b6e-769c-42e2-ab66-4163f9a40e13&amp;wid=9b106a24-4eef-41ab-8a06-c207d4143cb1&amp;ds=2" target="_blank">fran_giga</a>
-      </div>
-      <div class="footer-center" id="lbl-designed">Diseñado por</div>
-      <div class="footer-right">
-        <a href="https://www.geocaching.com/plan/lists/BMFC2Z7" target="_blank">GeoPaterna</a>
-      </div>
-    </footer>
-
-    <!-- MODAL 1: SELECTOR CON BANDERAS -->
-    <div class="modal-overlay active" id="modal-lang">
-      <div class="modal-box">
-        <div class="modal-title">🌐 SELECT LANGUAGE</div>
-        <p style="font-size: 0.78rem; color: #d0ffd0;">Selecciona idioma / Select language:</p>
-        <div class="lang-grid">
-          <!-- España -->
-          <button class="lang-card-btn" onclick="selectLanguage('es')" title="Español">
-            <svg class="flag-icon" viewBox="0 0 750 500"><rect width="750" height="500" fill="#c60b1e"/><rect y="125" width="750" height="250" fill="#ffc400"/></svg>
-          </button>
-          <!-- UK / English -->
-          <button class="lang-card-btn" onclick="selectLanguage('en')" title="English">
-            <svg class="flag-icon" viewBox="0 0 600 300"><clipPath id="a"><path d="M0 0v300h600V0z"/></clipPath><g clip-path="url(#a)"><path d="M0 0v300h600V0z" fill="#012169"/><path d="M0 0l600 300M600 0L0 300" stroke="#fff" stroke-width="60"/><path d="M0 0l600 300M600 0L0 300" stroke="#c8102e" stroke-width="40" clip-path="url(#a)"/><path d="M300 0v300M0 150h600" stroke="#fff" stroke-width="100"/><path d="M300 0v300M0 150h600" stroke="#c8102e" stroke-width="60"/></g></svg>
-          </button>
-          <!-- Alemania -->
-          <button class="lang-card-btn" onclick="selectLanguage('de')" title="Deutsch">
-            <svg class="flag-icon" viewBox="0 0 5 3"><rect width="5" height="3" fill="#000"/><rect y="1" width="5" height="2" fill="#D00"/><rect y="2" width="5" height="1" fill="#FFCE00"/></svg>
-          </button>
-          <!-- Francia -->
-          <button class="lang-card-btn" onclick="selectLanguage('fr')" title="Français">
-            <svg class="flag-icon" viewBox="0 0 3 2"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>
-          </button>
-          <!-- Países Bajos -->
-          <button class="lang-card-btn" onclick="selectLanguage('nl')" title="Nederlands">
-            <svg class="flag-icon" viewBox="0 0 9 6"><rect width="9" height="6" fill="#21468B"/><rect width="9" height="4" fill="#FFF"/><rect width="9" height="2" fill="#AE1C28"/></svg>
-          </button>
-          <!-- Portugal -->
-          <button class="lang-card-btn" onclick="selectLanguage('pt')" title="Português">
-            <svg class="flag-icon" viewBox="0 0 600 400"><rect width="600" height="400" fill="#ff0000"/><rect width="240" height="400" fill="#006600"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODAL 2: INSTRUCCIONES DE MISIÓN -->
-    <div class="modal-overlay" id="modal-instructions">
-      <div class="modal-box">
-        <div class="modal-title" id="txt-prep-title">📋 INSTRUCCIONES DE MISIÓN</div>
-        <div class="instructions-list">
-          <p id="txt-prep-desc">Debes neutralizar la plaga liberando machos estériles de <em>Ceratitis capitata</em> sobre los frutales de Caudete de las Fuentes:</p>
-          <ul>
-            <li id="txt-step-1">Toca/pulsa sobre cada <strong>foco rojo</strong> cuando aparezca en el radar.</li>
-            <li id="txt-step-2">Supera las <strong>5 fases</strong> de dificultad creciente (25 focos en total).</li>
-            <li id="txt-step-3">Al completar el barrido total, se desbloqueará la clave para <strong>Certitude</strong>.</li>
-          </ul>
-        </div>
-        <button class="btn" id="start-game-btn" onclick="startGame()">INICIAR RADAR</button>
-      </div>
-    </div>
-
-    <!-- MODAL 3: PANTALLA FINAL / VICTORIA -->
-    <div class="modal-overlay" id="modal-victory">
-      <div class="modal-box">
-        <div class="modal-title" style="color:var(--radar-green);" id="txt-vic-title">¡PLAGA NEUTRALIZADA!</div>
-        <p style="font-size: 0.8rem; line-height: 1.4; color: #d0ffd0;" id="txt-vic-desc">
-          Comarca protegida con éxito en las 5 fases mediante machos estériles de <em>Ceratitis capitata</em>.
-        </p>
-
-        <div class="certitude-box">
-          <span class="certitude-label" id="lbl-certitude">CLAVE PARA CERTITUDE:</span>
-          <span class="certitude-code">NO-TE-MOSQUEES</span>
-        </div>
-
-        <button class="btn" onclick="resetGame()" id="txt-repeat-btn">REPETIR MISIÓN</button>
-      </div>
-    </div>
-
+<!-- Contenedor general (casilla izquierda y casilla derecha) -->
+<div class="header-bar">
+  <!-- Casilla Izquierda -->
+  <div class="box left">
+    <span class="brand-name">GeoPaterna</span>
   </div>
 
-  <script>
-    const canvas = document.getElementById('radarCanvas');
-    const ctx = canvas.getContext('2d');
-    const scoreEl = document.getElementById('score-display');
-    const levelEl = document.getElementById('level-display');
-    const instructionEl = document.getElementById('instruction-text');
-    const radarBox = document.getElementById('radar-box');
+  <!-- Casilla Derecha -->
+  <div class="box right">
+    <span class="user-name">fran_giga</span>
 
-    const modalLang = document.getElementById('modal-lang');
-    const modalInstructions = document.getElementById('modal-instructions');
-    const modalVictory = document.getElementById('modal-victory');
+    <!-- Selector de Idioma -->
+    <div class="lang-selector">
+      <button class="lang-btn" onclick="toggleLangMenu()" aria-label="Seleccionar idioma">
+        <span class="flag">🇪🇸</span>
+        <span class="lang-text">ES</span>
+        <span class="arrow">▼</span>
+      </button>
 
-    let currentLang = 'es';
+      <ul id="langMenu" class="lang-dropdown">
+        <li onclick="selectLanguage('es', '🇪🇸', 'ES')">
+          <span class="flag">🇪🇸</span>
+          <span class="lang-text">ES</span>
+        </li>
+        <li onclick="selectLanguage('en', '🇬🇧', 'EN')">
+          <span class="flag">🇬🇧</span>
+          <span class="lang-text">EN</span>
+        </li>
+        <li onclick="selectLanguage('de', '🇩🇪', 'DE')">
+          <span class="flag">🇩🇪</span>
+          <span class="lang-text">DE</span>
+        </li>
+        <li onclick="selectLanguage('fr', '🇫🇷', 'FR')">
+          <span class="flag">🇫🇷</span>
+          <span class="lang-text">FR</span>
+        </li>
+        <li onclick="selectLanguage('nl', '🇳🇱', 'NL')">
+          <span class="flag">🇳🇱</span>
+          <span class="lang-text">NL</span>
+        </li>
+        <li onclick="selectLanguage('pt', '🇵🇹', 'PT')">
+          <span class="flag">🇵🇹</span>
+          <span class="lang-text">PT</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-    const translations = {
-      es: {
-        title: "BIOFÁBRICA CAUDETE",
-        subtitle: "SISTEMA DE CONTROL DE LIBERACIÓN AÉREA",
-        lblLevel: "NIVEL",
-        lblScore: "TRATADOS",
-        prepTitle: "📋 INSTRUCCIONES DE MISIÓN",
-        prepDesc: "Debes neutralizar la plaga liberando machos estériles de <em>Ceratitis capitata</em> sobre los frutales de Caudete de las Fuentes:",
-        step1: "Toca/pulsa sobre cada <strong>foco rojo</strong> cuando aparezca en el radar.",
-        step2: "Supera las <strong>5 fases</strong> de dificultad creciente (25 focos en total).",
-        step3: "Al completar el barrido total, se desbloqueará la clave para <strong>Certitude</strong>.",
-        startBtn: "INICIAR RADAR",
-        designed: "Diseñado por",
-        vicTitle: "¡PLAGA NEUTRALIZADA!",
-        vicDesc: "Comarca protegida con éxito en las 5 fases mediante machos estériles de <em>Ceratitis capitata</em>.",
-        certLabel: "CLAVE PARA CERTITUDE:",
-        repeatBtn: "REPETIR MISIÓN",
-        missed: "¡Foco perdido! Reactivando escáner...",
-        discharged: "¡Descarga efectuada!",
-        completed: "¡Misión completada! Toda la comarca ha sido tratada.",
-        standby: "ESPERANDO INICIO...",
-        levels: [
-          "FASE 1: RASTREO BÁSICO",
-          "FASE 2: DETECCIÓN RÁPIDA",
-          "FASE 3: ALTA DENSIDAD DE PLAGA",
-          "FASE 4: INTERVENCIÓN URGENTE",
-          "FASE 5: BARRIDO ALTA VELOCIDAD"
-        ]
-      },
-      en: {
-        title: "CAUDETE BIOFACTORY",
-        subtitle: "AERIAL RELEASE CONTROL SYSTEM",
-        lblLevel: "LEVEL",
-        lblScore: "TREATED",
-        prepTitle: "📋 MISSION INSTRUCTIONS",
-        prepDesc: "Neutralize the pest by releasing sterile male <em>Ceratitis capitata</em> over Caudete de las Fuentes orchards:",
-        step1: "Tap/click each <strong>red outbreak</strong> as it appears on the radar screen.",
-        step2: "Complete all <strong>5 phases</strong> of increasing difficulty (25 targets total).",
-        step3: "Upon complete area coverage, the <strong>Certitude</strong> keyword will be revealed.",
-        startBtn: "START RADAR",
-        designed: "Designed by",
-        vicTitle: "PEST NEUTRALIZED!",
-        vicDesc: "Region successfully protected across all 5 phases using sterile male <em>Ceratitis capitata</em>.",
-        certLabel: "CERTITUDE KEYWORD:",
-        repeatBtn: "REPLAY MISSION",
-        missed: "Target lost! Reactivating scanner...",
-        discharged: "Release successful!",
-        completed: "Mission complete! Entire area fully treated.",
-        standby: "WAITING TO START...",
-        levels: [
-          "PHASE 1: BASIC SCANNING",
-          "PHASE 2: FAST DETECTION",
-          "PHASE 3: HIGH PEST DENSITY",
-          "PHASE 4: URGENT ACTION",
-          "PHASE 5: HIGH-SPEED SWEEP"
-        ]
-      },
-      de: {
-        title: "BIOFABRIK CAUDETE",
-        subtitle: "LUFTFREISETZUNGS-STEUERUNGSSYSTEM",
-        lblLevel: "LEVEL",
-        lblScore: "BEHANDELT",
-        prepTitle: "📋 MISSIONSINSTRUKTIONEN",
-        prepDesc: "Bekämpfen Sie den Schädling durch Freisetzen steriler Männchen von <em>Ceratitis capitata</em> über den Obstgärten von Caudete de las Fuentes:",
-        step1: "Tippen Sie auf jeden <strong>roten Herd</strong>, sobald er auf dem Radar erscheint.",
-        step2: "Meistern Sie <strong>5 Phasen</strong> mit steigendem Schwierigkeitsgrad (insgesamt 25 Herde).",
-        step3: "Nach vollständiger Abdeckung wird das Passwort für <strong>Certitude</strong> freigeschaltet.",
-        startBtn: "RADAR STARTEN",
-        designed: "Entworfen von",
-        vicTitle: "SCHÄDLING NEUTRALISIERT!",
-        vicDesc: "Region in allen 5 Phasen erfolgreich mit sterilen Männchen von <em>Ceratitis capitata</em> geschützt.",
-        certLabel: "CERTITUDE PASSWORT:",
-        repeatBtn: "MISSION WIEDERHOLEN",
-        missed: "Ziel verloren! Scanner wird reaktiviert...",
-        discharged: "Freisetzung erfolgreich!",
-        completed: "Mission abgeschlossen! Das gesamte Gebiet wurde behandelt.",
-        standby: "WARTE AUF START...",
-        levels: [
-          "PHASE 1: BASIS-SCANNEN",
-          "PHASE 2: SCHNELLE ERFASSUNG",
-          "PHASE 3: HOHE SCHÄDLINGSDICHTE",
-          "PHASE 4: DRINGENDER EINSATZ",
-          "PHASE 5: HOCHGESCHWINDIGKEITS-BARRAGE"
-        ]
-      },
-      fr: {
-        title: "BIOFABRIQUE CAUDETE",
-        subtitle: "SYSTÈME DE CONTRÔLE DE LÂCHER AÉRIEN",
-        lblLevel: "NIVEAU",
-        lblScore: "TRAITÉS",
-        prepTitle: "📋 INSTRUCTIONS DE MISSION",
-        prepDesc: "Neutralisez le ravageur en lâchant des mâles stériles de <em>Ceratitis capitata</em> sur les vergers de Caudete de las Fuentes :",
-        step1: "Appuyez sur chaque <strong>foyer rouge</strong> dès qu'il apparaît sur le radar.",
-        step2: "Franchissez les <strong>5 phases</strong> de difficulté croissante (25 foyers au total).",
-        step3: "Une fois le traitement terminé, le mot de passe <strong>Certitude</strong> sera révélé.",
-        startBtn: "LANCER LE RADAR",
-        designed: "Conçu par",
-        vicTitle: "RAVAGEUR NEUTRALISÉ !",
-        vicDesc: "Région protégée avec succès sur les 5 phases grâce aux mâles stériles de <em>Ceratitis capitata</em>.",
-        certLabel: "MOT DE PASSE CERTITUDE :",
-        repeatBtn: "REJOUER LA MISSION",
-        missed: "Cible perdue ! Réactivation du scanner...",
-        discharged: "Lâcher effectué !",
-        completed: "Mission accomplie ! Toute la zone a été traitée.",
-        standby: "EN ATTENTE DU DÉMARRAGE...",
-        levels: [
-          "PHASE 1 : BALAYAGE DE BASE",
-          "PHASE 2 : DÉTECTION RAPIDE",
-          "PHASE 3 : FORTE DENSITÉ DE PARASITES",
-          "PHASE 4 : INTERVENTION URGENTE",
-          "PHASE 5 : BALAYAGE HAUTE VITESSE"
-        ]
-      },
-      nl: {
-        title: "BIOFABRIEK CAUDETE",
-        subtitle: "LUCHTLATEN-BESTURINGSSYSTEEM",
-        lblLevel: "NIVEAU",
-        lblScore: "BEHANDELD",
-        prepTitle: "📋 MISSIE-INSTRUCTIES",
-        prepDesc: "Bestrijd de plaag door steriele mannetjes van <em>Ceratitis capitata</em> los te laten boven de boomgaarden van Caudete de las Fuentes:",
-        step1: "Tik op elke <strong>rode haard</strong> zodra deze op het radarscherm verschijnt.",
-        step2: "Voltooi alle <strong>5 fasen</strong> van toenemende moeilijkheidsgraad (25 haarden in totaal).",
-        step3: "Na volledige dekking wordt de sleutel voor <strong>Certitude</strong> ontgrendeld.",
-        startBtn: "RADAR STARTEN",
-        designed: "Ontworpen door",
-        vicTitle: "PLAAG GENEUTRALISEERD!",
-        vicDesc: "Regio succesvol beschermd in alle 5 fasen met steriele mannetjes van <em>Ceratitis capitata</em>.",
-        certLabel: "CERTITUDE SLEUTEL:",
-        repeatBtn: "MISSIE HERHALEN",
-        missed: "Doel verloren! Scanner heractiveren...",
-        discharged: "Vrijlating geslaagd!",
-        completed: "Missie voltooid! Het gehele gebied is behandeld.",
-        standby: "WACHTEN OP START...",
-        levels: [
-          "FASE 1: BASIS SCANNING",
-          "FASE 2: SNELLER DETECTIE",
-          "FASE 3: HOGE PLAAGDICHTHEID",
-          "FASE 4: DRINGENDE ACTIE",
-          "FASE 5: HOGESNELHEIDSVEEG"
-        ]
-      },
-      pt: {
-        title: "BIOFÁBRICA CAUDETE",
-        subtitle: "SISTEMA DE CONTROLO DE LIBERTAÇÃO AÉREA",
-        lblLevel: "NÍVEL",
-        lblScore: "TRATADOS",
-        prepTitle: "📋 INSTRUÇÕES DA MISSÃO",
-        prepDesc: "Neutralize a praga libertando machos estéreis de <em>Ceratitis capitata</em> sobre os pomares de Caudete de las Fuentes:",
-        step1: "Toque/clique em cada <strong>foco vermelho</strong> assim que aparecer no radar.",
-        step2: "Supera as <strong>5 fases</strong> de dificuldade crescente (25 focos no total).",
-        step3: "Ao completar a cobertura total, a palavra-chave para o <strong>Certitude</strong> será revelada.",
-        startBtn: "INICIAR RADAR",
-        designed: "Desenhado por",
-        vicTitle: "PRAGA NEUTRALIZADA!",
-        vicDesc: "Região protegida com sucesso nas 5 fases utilizando machos estéreis de <em>Ceratitis capitata</em>.",
-        certLabel: "PALAVRA-CHAVE CERTITUDE:",
-        repeatBtn: "REPETIR MISSÃO",
-        missed: "Alvo perdido! Reativando scanner...",
-        discharged: "Libertação efetuada!",
-        completed: "Missão cumprida! Toda a região foi tratada.",
-        standby: "AGUARDANDO INÍCIO...",
-        levels: [
-          "FASE 1: VARREDRUBA BÁSICA",
-          "FASE 2: DETEÇÃO RÁPIDA",
-          "FASE 3: ALTA DENSIDADE DE PRAGA",
-          "FASE 4: INTERVENÇÃO URGENTE",
-          "FASE 5: VARREDURA ALTA VELOCIDADE"
-        ]
-      }
-    };
+<style>
+  .header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+  }
 
-    function selectLanguage(lang) {
-      currentLang = lang;
-      const t = translations[lang];
+  .box {
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Control estricto para evitar saltos de línea */
+  }
 
-      document.getElementById('txt-title').textContent = t.title;
-      document.getElementById('txt-subtitle').textContent = t.subtitle;
-      document.getElementById('lbl-level').textContent = t.lblLevel;
-      document.getElementById('lbl-score').textContent = t.lblScore;
-      document.getElementById('txt-prep-title').textContent = t.prepTitle;
-      document.getElementById('txt-prep-desc').innerHTML = t.prepDesc;
-      document.getElementById('txt-step-1').innerHTML = t.step1;
-      document.getElementById('txt-step-2').innerHTML = t.step2;
-      document.getElementById('txt-step-3').innerHTML = t.step3;
-      document.getElementById('start-game-btn').textContent = t.startBtn;
-      document.getElementById('lbl-designed').textContent = t.designed;
-      document.getElementById('txt-vic-title').textContent = t.vicTitle;
-      document.getElementById('txt-vic-desc').innerHTML = t.vicDesc;
-      document.getElementById('lbl-certitude').textContent = t.certLabel;
-      document.getElementById('txt-repeat-btn').textContent = t.repeatBtn;
-      instructionEl.textContent = t.standby;
+  .left {
+    justify-content: flex-start;
+  }
 
-      modalLang.classList.remove('active');
-      modalInstructions.classList.add('active');
-    }
+  .right {
+    justify-content: flex-end;
+    gap: 15px;
+  }
 
-    const CENTER_X = canvas.width / 2;
-    const CENTER_Y = canvas.height / 2;
-    const RADIUS = canvas.width / 2 - 5;
+  .brand-name, .user-name {
+    font-weight: bold;
+    font-size: 1rem;
+  }
 
-    let gameActive = false;
-    let score = 0;
-    const TOTAL_TARGETS = 25;
-    const TARGETS_PER_LEVEL = 5;
-    let currentLevel = 1;
+  .lang-selector {
+    position: relative;
+    display: inline-block;
+  }
 
-    let sweepAngle = 0;
-    let sweepSpeed = 0.035;
-    let targetLifetime = 4200;
-    
-    let targets = [];
-    let animationFrameId = null;
-    let targetTimeoutId = null;
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
 
-    const levelBaseConfigs = [
-      { speed: 0.035, lifetime: 4200 },
-      { speed: 0.048, lifetime: 3400 },
-      { speed: 0.062, lifetime: 2700 },
-      { speed: 0.078, lifetime: 2100 },
-      { speed: 0.095, lifetime: 1600 }
-    ];
+  .lang-btn:hover {
+    background-color: #f0f0f0;
+  }
 
-    function playBeep(freq = 440, type = 'sine', duration = 0.1) {
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-      } catch (e) { }
-    }
+  .arrow {
+    font-size: 0.7rem;
+    margin-left: 2px;
+  }
 
-    function drawRadarGrid() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+  .lang-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    list-style: none;
+    padding: 0;
+    min-width: 90px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 100;
+  }
 
-      ctx.strokeStyle = 'rgba(0, 255, 102, 0.25)';
-      ctx.lineWidth = 1;
-      for (let r = 1; r <= 3; r++) {
-        ctx.beginPath();
-        ctx.arc(CENTER_X, CENTER_Y, (RADIUS / 3) * r, 0, Math.PI * 2);
-        ctx.stroke();
-      }
+  .lang-dropdown.show {
+    display: block;
+  }
 
-      ctx.beginPath();
-      ctx.moveTo(CENTER_X, 10);
-      ctx.lineTo(CENTER_X, canvas.height - 10);
-      ctx.moveTo(10, CENTER_Y);
-      ctx.lineTo(canvas.width - 10, CENTER_Y);
-      ctx.stroke();
-    }
+  .lang-dropdown li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
 
-    function spawnTarget() {
-      if (!gameActive || score >= TOTAL_TARGETS) return;
-      
-      if (targetTimeoutId) clearTimeout(targetTimeoutId);
+  .lang-dropdown li:hover {
+    background-color: #f0f0f0;
+  }
+</style>
 
-      const dist = Math.random() * (RADIUS - 50) + 25;
-      const angle = Math.random() * Math.PI * 2;
-      
-      const newTarget = {
-        id: Date.now(),
-        x: CENTER_X + Math.cos(angle) * dist,
-        y: CENTER_Y + Math.sin(angle) * dist,
-        size: 16,
-        createdAt: Date.now()
-      };
-      
-      targets = [newTarget];
-      playBeep(320, 'sawtooth', 0.12);
+<script>
+  function toggleLangMenu() {
+    document.getElementById('langMenu').classList.toggle('show');
+  }
 
-      targetTimeoutId = setTimeout(() => {
-        if (gameActive && targets.length > 0) {
-          playBeep(200, 'square', 0.2);
-          instructionEl.textContent = translations[currentLang].missed;
-          targets = [];
-          setTimeout(spawnTarget, 500);
-        }
-      }, targetLifetime);
-    }
+  function selectLanguage(code, flag, text) {
+    const btn = document.querySelector('.lang-btn');
+    btn.querySelector('.flag').textContent = flag;
+    btn.querySelector('.lang-text').textContent = text;
+    document.getElementById('langMenu').classList.remove('show');
+  }
 
-    function update() {
-      if (!gameActive) return;
-
-      drawRadarGrid();
-
-      sweepAngle += sweepSpeed;
-      if (sweepAngle >= Math.PI * 2) sweepAngle = 0;
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(CENTER_X, CENTER_Y);
-      ctx.arc(CENTER_X, CENTER_Y, RADIUS, sweepAngle - 0.35, sweepAngle);
-      ctx.closePath();
-      const gradient = ctx.createRadialGradient(CENTER_X, CENTER_Y, 0, CENTER_X, CENTER_Y, RADIUS);
-      gradient.addColorStop(0, 'rgba(0, 255, 102, 0)');
-      gradient.addColorStop(1, 'rgba(0, 255, 102, 0.3)');
-      ctx.fillStyle = gradient;
-      ctx.fill();
-      ctx.restore();
-
-      ctx.beginPath();
-      ctx.moveTo(CENTER_X, CENTER_Y);
-      ctx.lineTo(CENTER_X + Math.cos(sweepAngle) * RADIUS, CENTER_Y + Math.sin(sweepAngle) * RADIUS);
-      ctx.strokeStyle = 'rgba(0, 255, 102, 0.9)';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      targets.forEach((t) => {
-        ctx.beginPath();
-        ctx.arc(t.x, t.y, t.size / 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 51, 68, 0.95)';
-        ctx.shadowColor = '#ff3344';
-        ctx.shadowBlur = 10;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-      });
-
-      animationFrameId = requestAnimationFrame(update);
-    }
-
-    function applyLevelConfig() {
-      const config = levelBaseConfigs[currentLevel - 1];
-      const levelLabel = translations[currentLang].levels[currentLevel - 1];
-      sweepSpeed = config.speed;
-      targetLifetime = config.lifetime;
-      levelEl.textContent = `${currentLevel}/5`;
-      instructionEl.textContent = `${levelLabel}: (${score}/${TOTAL_TARGETS})`;
-    }
-
-    function handleTap(e) {
-      if (!gameActive || targets.length === 0) return;
-
-      const rect = canvas.getBoundingClientRect();
-      const clickX = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-      const clickY = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-
-      const t = targets[0];
-      const dist = Math.hypot(clickX - t.x, clickY - t.y);
-
-      if (dist <= t.size + 12) {
-        if (targetTimeoutId) clearTimeout(targetTimeoutId);
-        score++;
-        scoreEl.textContent = `${score}/25`;
-        playBeep(880 + (score * 20), 'sine', 0.15);
-        targets = [];
-
-        const calculatedLevel = Math.min(Math.floor(score / TARGETS_PER_LEVEL) + 1, 5);
-        if (calculatedLevel > currentLevel && score < TOTAL_TARGETS) {
-          currentLevel = calculatedLevel;
-          applyLevelConfig();
-          playBeep(1200, 'triangle', 0.25);
-        } else {
-          instructionEl.textContent = `${translations[currentLang].discharged} (${score}/${TOTAL_TARGETS})`;
-        }
-
-        if (score >= TOTAL_TARGETS) {
-          endGame();
-        } else {
-          setTimeout(spawnTarget, 400);
-        }
+  window.onclick = function(event) {
+    if (!event.target.closest('.lang-selector')) {
+      const dropdown = document.getElementById('langMenu');
+      if (dropdown && dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
       }
     }
-
-    function startGame() {
-      modalInstructions.classList.remove('active');
-      
-      score = 0;
-      currentLevel = 1;
-      scoreEl.textContent = `0/25`;
-      targets = [];
-      gameActive = true;
-
-      applyLevelConfig();
-      spawnTarget();
-      update();
-    }
-
-    function endGame() {
-      gameActive = false;
-      if (targetTimeoutId) clearTimeout(targetTimeoutId);
-      cancelAnimationFrame(animationFrameId);
-      instructionEl.textContent = translations[currentLang].completed;
-      playBeep(523, 'triangle', 0.25);
-      setTimeout(() => playBeep(659, 'triangle', 0.3), 150);
-      setTimeout(() => playBeep(784, 'triangle', 0.4), 300);
-
-      modalVictory.classList.add('active');
-    }
-
-    function resetGame() {
-      modalVictory.classList.remove('active');
-      modalLang.classList.add('active');
-      drawRadarGrid();
-    }
-
-    radarBox.addEventListener('touchstart', (e) => { e.preventDefault(); handleTap(e); }, {passive: false});
-    radarBox.addEventListener('mousedown', handleTap);
-
-    drawRadarGrid();
-  </script>
-</body>
-</html>
+  }
+</script>
