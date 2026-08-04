@@ -327,6 +327,13 @@ footer a:hover {
   pointer-events: none;
   border-radius: 8px;
 }
+
+.inline-fly {
+  display: inline-block;
+  vertical-align: middle;
+  width: 18px;
+  height: 18px;
+}
 </style>
 </head>
 <body>
@@ -398,7 +405,7 @@ footer a:hover {
       <div class="instructions-list">
         <p id="txt-prep-desc">Debes neutralizar la plaga liberando machos estériles de <em>Ceratitis capitata</em> sobre los frutales de Caudete de las Fuentes:</p>
         <ul>
-          <li id="txt-step-1">Toca/pulsa sobre cada <strong>mosca 🪰</strong> cuando aparezca en el radar.</li>
+          <li id="txt-step-1">Toca/pulsa sobre cada <strong>mosca</strong> cuando aparezca en el radar.</li>
           <li id="txt-step-2">Supera las <strong>8 fases</strong> de dificultad creciente (50 moscas en total).</li>
           <li id="txt-step-3">Al completar el barrido total, se desbloqueará la clave para <strong>Certitude</strong>.</li>
         </ul>
@@ -434,6 +441,9 @@ const modalVictory = document.getElementById('modal-victory');
 
 let currentLang = 'es';
 
+// Icono SVG universal de mosca para las instrucciones
+const flyIconSvg = `<svg class="inline-fly" viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="4" ry="6" fill="#ff2233"/><circle cx="12" cy="7" r="3" fill="#ff2233"/><circle cx="10" cy="6" r="1.2" fill="#ffffff"/><circle cx="14" cy="6" r="1.2" fill="#ffffff"/><ellipse cx="7" cy="12" rx="4.5" ry="2" fill="rgba(255,255,255,0.7)" transform="rotate(-30 7 12)"/><ellipse cx="17" cy="12" rx="4.5" ry="2" fill="rgba(255,255,255,0.7)" transform="rotate(30 17 12)"/></svg>`;
+
 const translations = {
   es: {
     title: "BIOFÁBRICA CAUDETE",
@@ -442,7 +452,7 @@ const translations = {
     lblScore: "TRATADOS",
     prepTitle: "📋 INSTRUCCIONES DE MISIÓN",
     prepDesc: "Debes neutralizar la plaga liberando machos estériles de <em>Ceratitis capitata</em> sobre los frutales de Caudete de las Fuentes:",
-    step1: "Toca/pulsa sobre cada <strong>mosca 🪰</strong> cuando aparezca en el radar.",
+    step1: `Toca/pulsa sobre cada <strong>mosca</strong> ${flyIconSvg} cuando aparezca en el radar.`,
     step2: "Supera las <strong>8 fases</strong> de dificultad creciente (50 moscas en total).",
     step3: "Al completar el barrido total, se desbloqueará la clave para <strong>Certitude</strong>.",
     startBtn: "INICIAR RADAR",
@@ -472,7 +482,7 @@ const translations = {
     lblScore: "TREATED",
     prepTitle: "📋 MISSION INSTRUCTIONS",
     prepDesc: "Neutralize the pest by releasing sterile male <em>Ceratitis capitata</em> over Caudete de las Fuentes orchards:",
-    step1: "Tap/click each <strong>fly 🪰</strong> as it appears on the radar screen.",
+    step1: `Tap/click each <strong>fly</strong> ${flyIconSvg} as it appears on the radar screen.`,
     step2: "Complete all <strong>8 phases</strong> of increasing difficulty (50 flies total).",
     step3: "Upon complete area coverage, the <strong>Certitude</strong> keyword will be revealed.",
     startBtn: "START RADAR",
@@ -502,7 +512,7 @@ const translations = {
     lblScore: "BEHANDELT",
     prepTitle: "📋 MISSIONSINSTRUKTIONEN",
     prepDesc: "Bekämpfen Sie den Schädling durch Freisetzen steriler Männchen von <em>Ceratitis capitata</em> über den Obstgärten von Caudete de las Fuentes:",
-    step1: "Tippen Sie auf jede <strong>Fliege 🪰</strong>, sobald sie auf dem Radar erscheint.",
+    step1: `Tippen Sie auf jede <strong>Fliege</strong> ${flyIconSvg}, sobald sie auf dem Radar erscheint.`,
     step2: "Meistern Sie <strong>8 Phasen</strong> mit steigendem Schwierigkeitsgrad (insgesamt 50 Fliegen).",
     step3: "Nach vollständiger Abdeckung wird das Passwort für <strong>Certitude</strong> freigeschaltet.",
     startBtn: "RADAR STARTEN",
@@ -532,7 +542,7 @@ const translations = {
     lblScore: "TRAITÉS",
     prepTitle: "📋 INSTRUCTIONS DE MISSION",
     prepDesc: "Neutralisez le ravageur en lâchant des mâles stériles de <em>Ceratitis capitata</em> sur les vergers de Caudete de las Fuentes :",
-    step1: "Appuyez sur chaque <strong>mouche 🪰</strong> dès qu'elle apparaît sur le radar.",
+    step1: `Appuyez sur chaque <strong>mouche</strong> ${flyIconSvg} dès qu'elle apparaît sur le radar.`,
     step2: "Franchissez les <strong>8 phases</strong> de difficulté croissante (50 mouches au total).",
     step3: "Une fois le traitement terminé, le mot de passe <strong>Certitude</strong> sera révélé.",
     startBtn: "LANCER LE RADAR",
@@ -562,7 +572,7 @@ const translations = {
     lblScore: "BEHANDELD",
     prepTitle: "📋 MISSIE-INSTRUCTIES",
     prepDesc: "Bestrijd de plaag door steriele mannetjes van <em>Ceratitis capitata</em> los te laten boven de boomgaarden van Caudete de las Fuentes:",
-    step1: "Tik op elke <strong>vlieg 🪰</strong> zodra deze op het radarscherm verschijnt.",
+    step1: `Tik op elke <strong>vlieg</strong> ${flyIconSvg} zodra deze op het radarscherm verschijnt.`,
     step2: "Voltooi alle <strong>8 fasen</strong> van toenemende moeilijkheidsgraad (50 vliegen in totaal).",
     step3: "Na volledige dekking wordt de sleutel voor <strong>Certitude</strong> ontgrendeld.",
     startBtn: "RADAR STARTEN",
@@ -592,7 +602,7 @@ const translations = {
     lblScore: "TRATADOS",
     prepTitle: "📋 INSTRUÇÕES DA MISSÃO",
     prepDesc: "Neutralize a praga libertando machos estéreis de <em>Ceratitis capitata</em> sobre os pomares de Caudete de las Fuentes:",
-    step1: "Toque/clique em cada <strong>mosca 🪰</strong> assim que aparecer no radar.",
+    step1: `Toque/clique em cada <strong>mosca</strong> ${flyIconSvg} assim que aparecer no radar.`,
     step2: "Supera as <strong>8 fases</strong> de dificuldade crescente (50 moscas no total).",
     step3: "Ao completar a cobertura total, a palavra-chave para o <strong>Certitude</strong> será revelada.",
     startBtn: "INICIAR RADAR",
@@ -671,7 +681,6 @@ let targets = [];
 let animationFrameId = null;
 let targetTimeoutId = null;
 
-// Sistema de Audio Persistente
 let audioCtx = null;
 
 function initAudio() {
@@ -724,7 +733,6 @@ function drawRadarGrid() {
   ctx.strokeStyle = 'rgba(0, 255, 102, 0.25)';
   ctx.lineWidth = 1;
 
-  // Rejilla rectangular
   const cols = 4;
   const rows = 3;
   for (let i = 1; i < cols; i++) {
@@ -740,7 +748,6 @@ function drawRadarGrid() {
     ctx.stroke();
   }
 
-  // Círculos de referencia concéntricos
   const centerX = canvasWidth / 2;
   const centerY = canvasHeight / 2;
   const maxRadius = Math.min(centerX, centerY) * 0.9;
@@ -749,6 +756,52 @@ function drawRadarGrid() {
     ctx.arc(centerX, centerY, (maxRadius / 2) * r, 0, Math.PI * 2);
     ctx.stroke();
   }
+}
+
+// Función nativa para dibujar la MOSCA vectorial de forma universal
+function drawFly(x, y) {
+  ctx.save();
+  ctx.translate(x, y);
+
+  // Alas transparentes
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+  ctx.beginPath();
+  ctx.ellipse(-7, -4, 7, 3.5, -Math.PI / 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(7, -4, 7, 3.5, Math.PI / 5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Abdomen/Cuerpo rojo vivo táctico
+  ctx.fillStyle = '#ff2233';
+  ctx.beginPath();
+  ctx.ellipse(0, 4, 5, 7, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Cabeza
+  ctx.fillStyle = '#cc0011';
+  ctx.beginPath();
+  ctx.arc(0, -4, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Ojos blancos brillantes
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.arc(-2.5, -5, 1.5, 0, Math.PI * 2);
+  ctx.arc(2.5, -5, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Patas oscuras
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(-4, 0); ctx.lineTo(-8, 2);
+  ctx.moveTo(4, 0); ctx.lineTo(8, 2);
+  ctx.moveTo(-4, 4); ctx.lineTo(-9, 7);
+  ctx.moveTo(4, 4); ctx.lineTo(9, 7);
+  ctx.stroke();
+
+  ctx.restore();
 }
 
 function spawnTarget() {
@@ -764,7 +817,7 @@ function spawnTarget() {
     id: Date.now(),
     x: x,
     y: y,
-    size: 24, // Tamaño ajustado para el emoji de mosca
+    size: 24,
     createdAt: Date.now()
   };
 
@@ -815,12 +868,9 @@ function update() {
   ctx.lineWidth = 2.5;
   ctx.stroke();
 
-  // Dibujar MOSCA Emoji (🪰)
+  // Dibujar moscas vectoriales en Canvas
   targets.forEach((t) => {
-    ctx.font = '26px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🪰', t.x, t.y);
+    drawFly(t.x, t.y);
   });
 
   animationFrameId = requestAnimationFrame(update);
