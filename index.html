@@ -245,32 +245,25 @@ footer a:hover {
   font-weight: 700;
   text-transform: uppercase;
 }
-/* Estilos para el checker del código */
-.code-checker-box {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-}
+/* Estilos del casillero CÓDIGO en la 2ª ventana */
 .code-input {
-  width: 100%;
+  width: 80%;
+  max-width: 260px;
   background: #000000;
   border: 2px solid var(--radar-green);
   border-radius: 6px;
   color: #ffffff;
   font-family: var(--font-family);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   text-align: center;
-  padding: 8px 12px;
+  padding: 10px 12px;
   text-transform: uppercase;
   letter-spacing: 2px;
   outline: none;
 }
 .code-input:focus {
-  box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.6);
 }
 .instructions-list {
   font-size: 0.8rem;
@@ -353,12 +346,11 @@ footer a:hover {
     <div class="footer-col"><a href="https://www.geocaching.com/p/?guid=8aa34b6e-769c-42e2-ab66-4163f9a40e13&amp;wid=9b106a24-4eef-41ab-8a06-c207d4143cb1&amp;ds=2" target="_blank">fran_giga</a></div>
   </footer>
 
-  <!-- MODAL 1: SELECTOR DE IDIOMA Y CÓDIGO -->
+  <!-- MODAL 1: SELECTOR DE IDIOMA -->
   <div class="modal-overlay active" id="modal-lang">
     <div class="modal-box">
       <div class="modal-title">🌐 SELECT LANGUAGE</div>
       <p style="font-size: 0.75rem; color: #ffffff; font-weight: 600;">Selecciona idioma / Select language:</p>
-      
       <div class="lang-grid">
         <button class="lang-card-btn" onclick="selectLanguage('es')">
           <svg class="flag-icon" viewBox="0 0 750 500"><rect width="750" height="500" fill="#c60b1e"/><rect y="125" width="750" height="250" fill="#ffc400"/></svg>
@@ -385,15 +377,17 @@ footer a:hover {
           <span class="lang-name">Português</span>
         </button>
       </div>
-
-      <!-- CHECKER DE CÓDIGO -->
-      <div class="code-checker-box">
-        <input type="text" id="passcode-input" class="code-input" placeholder="CÓDIGO" autocomplete="off" spellcheck="false" oninput="checkCode()">
-      </div>
     </div>
   </div>
 
-  <!-- MODAL 2: INSTRUCCIONES -->
+  <!-- MODAL 2: CHECKER DE CÓDIGO -->
+  <div class="modal-overlay" id="modal-code">
+    <div class="modal-box" style="padding: 24px 12px;">
+      <input type="text" id="passcode-input" class="code-input" placeholder="CÓDIGO" autocomplete="off" spellcheck="false" oninput="checkCode()">
+    </div>
+  </div>
+
+  <!-- MODAL 3: INSTRUCCIONES -->
   <div class="modal-overlay" id="modal-instructions">
     <div class="modal-box">
       <div class="modal-title" id="txt-prep-title">📋 INSTRUCCIONES DE MISIÓN</div>
@@ -409,7 +403,7 @@ footer a:hover {
     </div>
   </div>
 
-  <!-- MODAL 3: VICTORIA -->
+  <!-- MODAL 4: VICTORIA -->
   <div class="modal-overlay" id="modal-victory">
     <div class="modal-box">
       <div class="modal-title" style="color:var(--radar-green);" id="txt-vic-title">¡PLAGA NEUTRALIZADA!</div>
@@ -431,6 +425,7 @@ const levelEl = document.getElementById('level-display');
 const instructionEl = document.getElementById('instruction-text');
 const radarBox = document.getElementById('radar-box');
 const modalLang = document.getElementById('modal-lang');
+const modalCode = document.getElementById('modal-code');
 const modalInstructions = document.getElementById('modal-instructions');
 const modalVictory = document.getElementById('modal-victory');
 const passcodeInput = document.getElementById('passcode-input');
@@ -587,13 +582,17 @@ function selectLanguage(lang) {
   document.getElementById('lbl-certitude').textContent = t.certLabel;
   document.getElementById('txt-repeat-btn').textContent = t.repeatBtn;
   instructionEl.textContent = t.standby;
-  checkCode();
+
+  // Cierra selector de idioma y abre la ventana emergente del código
+  modalLang.classList.remove('active');
+  modalCode.classList.add('active');
+  setTimeout(() => passcodeInput.focus(), 100);
 }
 
 function checkCode() {
   const val = passcodeInput.value.trim().toUpperCase();
   if (val === 'EG+FG') {
-    modalLang.classList.remove('active');
+    modalCode.classList.remove('active');
     modalInstructions.classList.add('active');
   }
 }
