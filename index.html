@@ -4,12 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Biofábrica Caudete - Control de Liberación</title>
-
 <!-- Fuente táctica de alta legibilidad -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-
 <style>
 :root {
   --bg-color: #020503;
@@ -21,7 +19,6 @@
   --panel-bg: #061209;
   --font-family: 'Chakra Petch', -apple-system, sans-serif;
 }
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -31,7 +28,6 @@
   -webkit-touch-callout: none;
   touch-action: manipulation;
 }
-
 html, body {
   width: 100%;
   height: 100%;
@@ -39,7 +35,6 @@ html, body {
   overflow: hidden;
   background-color: var(--bg-color);
 }
-
 body {
   color: var(--radar-green);
   font-family: var(--font-family);
@@ -48,7 +43,6 @@ body {
   justify-content: center;
   padding: 8px;
 }
-
 /* Contenedor principal adaptable */
 .game-card {
   background: var(--panel-bg);
@@ -67,14 +61,12 @@ body {
   position: relative;
   overflow: hidden;
 }
-
 header {
   text-align: center;
   width: 100%;
   border-bottom: 2px solid var(--radar-dim);
   padding-bottom: 4px;
 }
-
 h1 {
   font-size: 1.1rem;
   font-weight: 700;
@@ -83,7 +75,6 @@ h1 {
   color: #ffffff;
   -webkit-font-smoothing: antialiased;
 }
-
 .subtitle {
   font-size: 0.68rem;
   font-weight: 600;
@@ -91,7 +82,6 @@ h1 {
   margin-top: 2px;
   letter-spacing: 0.5px;
 }
-
 /* Indicadores de estado nítidos */
 .status-bar {
   display: flex;
@@ -104,7 +94,6 @@ h1 {
   border-radius: 4px;
   border: 1.5px solid var(--radar-dim);
 }
-
 /* RADAR RECTANGULAR GRANDE */
 .radar-container {
   position: relative;
@@ -119,13 +108,11 @@ h1 {
   background: #010a04;
   cursor: crosshair;
 }
-
 canvas {
   display: block;
   width: 100%;
   height: 100%;
 }
-
 /* Mensajes e Instrucciones nítidas */
 .instructions {
   font-size: 0.85rem;
@@ -143,7 +130,6 @@ canvas {
   align-items: center;
   justify-content: center;
 }
-
 /* Botones nítidos */
 .btn {
   background: var(--radar-green);
@@ -158,11 +144,9 @@ canvas {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 .btn:active {
   background: #ffffff;
 }
-
 /* Footer estructurado en 2 columnas centradas */
 footer {
   width: 100%;
@@ -174,21 +158,17 @@ footer {
   font-size: 0.75rem;
   font-weight: 600;
 }
-
 .footer-col {
   text-align: center;
 }
-
 footer a {
   color: #ffffff;
   text-decoration: none;
   transition: color 0.2s;
 }
-
 footer a:hover {
   color: var(--radar-green);
 }
-
 /* Modales / Ventanas Emergentes */
 .modal-overlay {
   position: absolute;
@@ -209,12 +189,10 @@ footer a:hover {
   pointer-events: none;
   transition: opacity 0.2s ease;
 }
-
 .modal-overlay.active {
   opacity: 1;
   pointer-events: auto;
 }
-
 .modal-box {
   border: 2px solid var(--radar-green);
   padding: 14px 12px;
@@ -226,7 +204,6 @@ footer a:hover {
   align-items: center;
   gap: 12px;
 }
-
 .modal-title {
   font-size: 1rem;
   font-weight: 700;
@@ -234,7 +211,6 @@ footer a:hover {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-
 /* Grid de banderas */
 .lang-grid {
   display: grid;
@@ -242,7 +218,6 @@ footer a:hover {
   gap: 8px;
   width: 100%;
 }
-
 .lang-card-btn {
   background: #000000;
   border: 1.5px solid var(--radar-green);
@@ -255,25 +230,48 @@ footer a:hover {
   justify-content: center;
   gap: 4px;
 }
-
 .lang-card-btn:active {
   background: var(--radar-dim);
 }
-
 .flag-icon {
   width: 34px;
   height: 24px;
   border-radius: 3px;
   object-fit: cover;
 }
-
 .lang-name {
   font-size: 0.68rem;
   color: #ffffff;
   font-weight: 700;
   text-transform: uppercase;
 }
-
+/* Estilos para el checker del código */
+.code-checker-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.code-input {
+  width: 100%;
+  background: #000000;
+  border: 2px solid var(--radar-green);
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 8px 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  outline: none;
+}
+.code-input:focus {
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+}
 .instructions-list {
   font-size: 0.8rem;
   font-weight: 600;
@@ -282,17 +280,14 @@ footer a:hover {
   text-align: center;
   width: 100%;
 }
-
 .instructions-list ul {
   list-style: none;
   margin-top: 6px;
   padding-left: 0;
 }
-
 .instructions-list li {
   margin-bottom: 6px;
 }
-
 .certitude-box {
   margin: 4px 0;
   padding: 10px;
@@ -301,7 +296,6 @@ footer a:hover {
   border-radius: 6px;
   width: 100%;
 }
-
 .certitude-label {
   font-size: 0.72rem;
   font-weight: 700;
@@ -310,7 +304,6 @@ footer a:hover {
   margin-bottom: 4px;
   letter-spacing: 1px;
 }
-
 .certitude-code {
   font-size: 1.25rem;
   font-weight: 700;
@@ -318,7 +311,6 @@ footer a:hover {
   white-space: nowrap;
   letter-spacing: 2px;
 }
-
 .scanline {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -327,7 +319,6 @@ footer a:hover {
   pointer-events: none;
   border-radius: 8px;
 }
-
 .inline-fly {
   display: inline-block;
   vertical-align: middle;
@@ -337,8 +328,10 @@ footer a:hover {
 </style>
 </head>
 <body>
+
 <div class="game-card">
   <div class="scanline"></div>
+  
   <header>
     <h1 id="txt-title">BIOFÁBRICA CAUDETE</h1>
     <div class="subtitle" id="txt-subtitle">SISTEMA DE CONTROL DE LIBERACIÓN AÉREA</div>
@@ -354,21 +347,18 @@ footer a:hover {
   </div>
 
   <div class="instructions" id="instruction-text">ESPERANDO INICIO...</div>
-  
+
   <footer>
-    <div class="footer-col">
-      <a href="https://www.geocaching.com/plan/lists/BMFC2Z7" target="_blank">GeoPaterna</a>
-    </div>
-    <div class="footer-col">
-      <a href="https://www.geocaching.com/p/?guid=8aa34b6e-769c-42e2-ab66-4163f9a40e13&amp;wid=9b106a24-4eef-41ab-8a06-c207d4143cb1&amp;ds=2" target="_blank">fran_giga</a>
-    </div>
+    <div class="footer-col"><a href="https://www.geocaching.com/plan/lists/BMFC2Z7" target="_blank">GeoPaterna</a></div>
+    <div class="footer-col"><a href="https://www.geocaching.com/p/?guid=8aa34b6e-769c-42e2-ab66-4163f9a40e13&amp;wid=9b106a24-4eef-41ab-8a06-c207d4143cb1&amp;ds=2" target="_blank">fran_giga</a></div>
   </footer>
 
-  <!-- MODAL 1: SELECTOR DE IDIOMA -->
+  <!-- MODAL 1: SELECTOR DE IDIOMA Y CÓDIGO -->
   <div class="modal-overlay active" id="modal-lang">
     <div class="modal-box">
       <div class="modal-title">🌐 SELECT LANGUAGE</div>
       <p style="font-size: 0.75rem; color: #ffffff; font-weight: 600;">Selecciona idioma / Select language:</p>
+      
       <div class="lang-grid">
         <button class="lang-card-btn" onclick="selectLanguage('es')">
           <svg class="flag-icon" viewBox="0 0 750 500"><rect width="750" height="500" fill="#c60b1e"/><rect y="125" width="750" height="250" fill="#ffc400"/></svg>
@@ -394,6 +384,11 @@ footer a:hover {
           <svg class="flag-icon" viewBox="0 0 600 400"><rect width="600" height="400" fill="#ff0000"/><rect width="240" height="400" fill="#006600"/></svg>
           <span class="lang-name">Português</span>
         </button>
+      </div>
+
+      <!-- CHECKER DE CÓDIGO -->
+      <div class="code-checker-box">
+        <input type="text" id="passcode-input" class="code-input" placeholder="CÓDIGO" autocomplete="off" spellcheck="false" oninput="checkCode()">
       </div>
     </div>
   </div>
@@ -438,6 +433,7 @@ const radarBox = document.getElementById('radar-box');
 const modalLang = document.getElementById('modal-lang');
 const modalInstructions = document.getElementById('modal-instructions');
 const modalVictory = document.getElementById('modal-victory');
+const passcodeInput = document.getElementById('passcode-input');
 
 let currentLang = 'es';
 
@@ -464,13 +460,7 @@ const translations = {
     discharged: "¡Descarga efectuada!",
     completed: "¡Misión completada! Toda la comarca ha sido tratada.",
     standby: "ESPERANDO INICIO...",
-    levels: [
-      "FASE 1: RASTREO BÁSICO",
-      "FASE 2: DETECCIÓN INICIAL",
-      "FASE 3: BARRIDO REGULAR",
-      "FASE 4: INTERVENCIÓN URGENTE",
-      "FASE 5: RASTREO EXTREMO"
-    ]
+    levels: ["FASE 1: RASTREO BÁSICO","FASE 2: DETECCIÓN INICIAL","FASE 3: BARRIDO REGULAR","FASE 4: INTERVENCIÓN URGENTE","FASE 5: RASTREO EXTREMO"]
   },
   en: {
     title: "CAUDETE BIOFACTORY",
@@ -491,13 +481,7 @@ const translations = {
     discharged: "Release successful!",
     completed: "Mission complete! Entire area fully treated.",
     standby: "WAITING TO START...",
-    levels: [
-      "PHASE 1: BASIC SCANNING",
-      "PHASE 2: INITIAL DETECTION",
-      "PHASE 3: REGULAR SWEEP",
-      "PHASE 4: URGENT ACTION",
-      "PHASE 5: EXTREME SWEEP"
-    ]
+    levels: ["PHASE 1: BASIC SCANNING","PHASE 2: INITIAL DETECTION","PHASE 3: REGULAR SWEEP","PHASE 4: URGENT ACTION","PHASE 5: EXTREME SWEEP"]
   },
   de: {
     title: "BIOFABRIK CAUDETE",
@@ -518,13 +502,7 @@ const translations = {
     discharged: "Freisetzung erfolgreich!",
     completed: "Mission abgeschlossen! Das gesamte Gebiet wurde behandelt.",
     standby: "WARTE AUF START...",
-    levels: [
-      "PHASE 1: BASIS-SCANNEN",
-      "PHASE 2: ERSTE ERFASSUNG",
-      "PHASE 3: REGULÄRER DURCHLAUF",
-      "PHASE 4: DRINGENDER EINSATZ",
-      "PHASE 5: EXTREMER DURCHLAUF"
-    ]
+    levels: ["PHASE 1: BASIS-SCANNEN","PHASE 2: ERSTE ERFASSUNG","PHASE 3: REGULÄRER DURCHLAUF","PHASE 4: DRINGENDER EINSATZ","PHASE 5: EXTREMER DURCHLAUF"]
   },
   fr: {
     title: "BIOFABRIQUE CAUDETE",
@@ -545,13 +523,7 @@ const translations = {
     discharged: "Lâcher effectué !",
     completed: "Mission accomplie ! Toute la zone a été traitée.",
     standby: "EN ATTENTE DU DÉMARRAGE...",
-    levels: [
-      "PHASE 1 : BALAYAGE DE BASE",
-      "PHASE 2 : DÉTECTION INITIALE",
-      "PHASE 3 : BALAYAGE RÉGULIER",
-      "PHASE 4 : INTERVENTION URGENTE",
-      "PHASE 5 : BALAYAGE EXTRÊME"
-    ]
+    levels: ["PHASE 1 : BALAYAGE DE BASE","PHASE 2 : DÉTECTION INITIALE","PHASE 3 : BALAYAGE RÉGULIER","PHASE 4 : INTERVENTION URGENTE","PHASE 5 : BALAYAGE EXTRÊME"]
   },
   nl: {
     title: "BIOFABRIEK CAUDETE",
@@ -572,13 +544,7 @@ const translations = {
     discharged: "Vrijlating geslaagd!",
     completed: "Missie voltooid! Het gehele gebied is behandeld.",
     standby: "WACHTEN OP START...",
-    levels: [
-      "FASE 1: BASIS SCANNING",
-      "FASE 2: EERSTE DETECTIE",
-      "FASE 3: REGELMATIGE VEEG",
-      "FASE 4: DRINGENDE ACTIE",
-      "FASE 5: EXTREME VEEG"
-    ]
+    levels: ["FASE 1: BASIS SCANNING","FASE 2: EERSTE DETECTIE","FASE 3: REGELMATIGE VEEG","FASE 4: DRINGENDE ACTIE","FASE 5: EXTREME VEEG"]
   },
   pt: {
     title: "BIOFÁBRICA CAUDETE",
@@ -599,41 +565,37 @@ const translations = {
     discharged: "Libertação efetuada!",
     completed: "Missão cumprida! Toda a região foi tratada.",
     standby: "AGUARDANDO INÍCIO...",
-    levels: [
-      "FASE 1: VARREDURA BÁSICA",
-      "FASE 2: DETEÇÃO INICIAL",
-      "FASE 3: VARREDURA REGULAR",
-      "FASE 4: INTERVENÇÃO URGENTE",
-      "FASE 5: VARREDURA EXTREMA"
-    ]
+    levels: ["FASE 1: VARREDURA BÁSICA","FASE 2: DETEÇÃO INICIAL","FASE 3: VARREDURA REGULAR","FASE 4: INTERVENÇÃO URGENTE","FASE 5: VARREDURA EXTREMA"]
   }
 };
 
 function selectLanguage(lang) {
   currentLang = lang;
   const t = translations[lang];
-  
   document.getElementById('txt-title').textContent = t.title;
   document.getElementById('txt-subtitle').textContent = t.subtitle;
   document.getElementById('lbl-level').textContent = t.lblLevel;
   document.getElementById('lbl-score').textContent = t.lblScore;
-  
   document.getElementById('txt-prep-title').textContent = t.prepTitle;
   document.getElementById('txt-prep-desc').innerHTML = t.prepDesc;
   document.getElementById('txt-step-1').innerHTML = t.step1;
   document.getElementById('txt-step-2').innerHTML = t.step2;
   document.getElementById('txt-step-3').innerHTML = t.step3;
   document.getElementById('start-game-btn').textContent = t.startBtn;
-  
   document.getElementById('txt-vic-title').textContent = t.vicTitle;
   document.getElementById('txt-vic-desc').innerHTML = t.vicDesc;
   document.getElementById('lbl-certitude').textContent = t.certLabel;
   document.getElementById('txt-repeat-btn').textContent = t.repeatBtn;
-  
   instructionEl.textContent = t.standby;
-  
-  modalLang.classList.remove('active');
-  modalInstructions.classList.add('active');
+  checkCode();
+}
+
+function checkCode() {
+  const val = passcodeInput.value.trim().toUpperCase();
+  if (val === 'EG+FG') {
+    modalLang.classList.remove('active');
+    modalInstructions.classList.add('active');
+  }
 }
 
 let canvasWidth = 300;
@@ -654,15 +616,12 @@ let gameActive = false;
 let score = 0;
 const TOTAL_TARGETS = 50;
 let currentLevel = 1;
-
 let sweepAngle = 0;
 let sweepSpeed = 0.040;
 let targetLifetime = 3375;
-
 let targets = [];
 let animationFrameId = null;
 let targetTimeoutId = null;
-
 let audioCtx = null;
 
 function initAudio() {
@@ -681,39 +640,31 @@ function playBeep(freq = 440, type = 'sine', duration = 0.1) {
   try {
     initAudio();
     if (!audioCtx) return;
-
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    
     osc.type = type;
     osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    
     gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-    
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-    
     osc.start(audioCtx.currentTime);
     osc.stop(audioCtx.currentTime + duration);
   } catch (e) { }
 }
 
-// Configuración de 5 niveles en tandas de 10 moscas.
-// Nivel 5 ajustado con un +10% de dificultad máxima.
 const levelBaseConfigs = [
-  { speed: 0.040, lifetime: 3375 }, // Nivel 1 (1-10)
-  { speed: 0.060, lifetime: 2700 }, // Nivel 2 (11-20)
-  { speed: 0.082, lifetime: 2000 }, // Nivel 3 (21-30)
-  { speed: 0.105, lifetime: 1450 }, // Nivel 4 (31-40)
-  { speed: 0.135, lifetime: 970 }   // Nivel 5 (41-50)
+  { speed: 0.040, lifetime: 3375 },
+  { speed: 0.060, lifetime: 2700 },
+  { speed: 0.082, lifetime: 2000 },
+  { speed: 0.105, lifetime: 1450 },
+  { speed: 0.135, lifetime: 970 }
 ];
 
 function drawRadarGrid() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   ctx.strokeStyle = 'rgba(0, 255, 102, 0.25)';
   ctx.lineWidth = 1;
-
   const cols = 4;
   const rows = 3;
   for (let i = 1; i < cols; i++) {
@@ -728,7 +679,6 @@ function drawRadarGrid() {
     ctx.lineTo(canvasWidth, (canvasHeight / rows) * j);
     ctx.stroke();
   }
-
   const centerX = canvasWidth / 2;
   const centerY = canvasHeight / 2;
   const maxRadius = Math.min(centerX, centerY) * 0.9;
@@ -739,12 +689,9 @@ function drawRadarGrid() {
   }
 }
 
-// Dibujo vectorial directo de la mosca en canvas
 function drawFly(x, y) {
   ctx.save();
   ctx.translate(x, y);
-
-  // Alas transparentes
   ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
   ctx.beginPath();
   ctx.ellipse(-7, -4, 7, 3.5, -Math.PI / 5, 0, Math.PI * 2);
@@ -752,27 +699,19 @@ function drawFly(x, y) {
   ctx.beginPath();
   ctx.ellipse(7, -4, 7, 3.5, Math.PI / 5, 0, Math.PI * 2);
   ctx.fill();
-
-  // Abdomen/Cuerpo rojo vivo táctico
   ctx.fillStyle = '#ff2233';
   ctx.beginPath();
   ctx.ellipse(0, 4, 5, 7, 0, 0, Math.PI * 2);
   ctx.fill();
-
-  // Cabeza
   ctx.fillStyle = '#cc0011';
   ctx.beginPath();
   ctx.arc(0, -4, 4, 0, Math.PI * 2);
   ctx.fill();
-
-  // Ojos blancos brillantes
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
   ctx.arc(-2.5, -5, 1.5, 0, Math.PI * 2);
   ctx.arc(2.5, -5, 1.5, 0, Math.PI * 2);
   ctx.fill();
-
-  // Patas oscuras
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
   ctx.lineWidth = 1;
   ctx.beginPath();
@@ -781,19 +720,15 @@ function drawFly(x, y) {
   ctx.moveTo(-4, 4); ctx.lineTo(-9, 7);
   ctx.moveTo(4, 4); ctx.lineTo(9, 7);
   ctx.stroke();
-
   ctx.restore();
 }
 
 function spawnTarget() {
   if (!gameActive || score >= TOTAL_TARGETS) return;
-
   if (targetTimeoutId) clearTimeout(targetTimeoutId);
-
   const padding = 30;
   const x = padding + Math.random() * (canvasWidth - padding * 2);
   const y = padding + Math.random() * (canvasHeight - padding * 2);
-
   const newTarget = {
     id: Date.now(),
     x: x,
@@ -801,10 +736,8 @@ function spawnTarget() {
     size: 24,
     createdAt: Date.now()
   };
-
   targets = [newTarget];
   playBeep(320, 'sawtooth', 0.12);
-
   targetTimeoutId = setTimeout(() => {
     if (gameActive && targets.length > 0) {
       playBeep(200, 'square', 0.2);
@@ -817,43 +750,32 @@ function spawnTarget() {
 
 function update() {
   if (!gameActive) return;
-
   drawRadarGrid();
-
   const centerX = canvasWidth / 2;
   const centerY = canvasHeight / 2;
   const sweepRadius = Math.hypot(canvasWidth, canvasHeight);
-
   sweepAngle += sweepSpeed;
   if (sweepAngle >= Math.PI * 2) sweepAngle = 0;
-
-  // Haz de barrido
   ctx.save();
   ctx.beginPath();
   ctx.moveTo(centerX, centerY);
   ctx.arc(centerX, centerY, sweepRadius, sweepAngle - 0.4, sweepAngle);
   ctx.closePath();
-
   const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, sweepRadius);
   gradient.addColorStop(0, 'rgba(0, 255, 102, 0)');
   gradient.addColorStop(1, 'rgba(0, 255, 102, 0.35)');
   ctx.fillStyle = gradient;
   ctx.fill();
   ctx.restore();
-
-  // Línea principal de radar
   ctx.beginPath();
   ctx.moveTo(centerX, centerY);
   ctx.lineTo(centerX + Math.cos(sweepAngle) * sweepRadius, centerY + Math.sin(sweepAngle) * sweepRadius);
   ctx.strokeStyle = '#00ff66';
   ctx.lineWidth = 2.5;
   ctx.stroke();
-
-  // Dibujar moscas vectoriales en Canvas
   targets.forEach((t) => {
     drawFly(t.x, t.y);
   });
-
   animationFrameId = requestAnimationFrame(update);
 }
 
@@ -862,34 +784,25 @@ function applyLevelConfig() {
   const levelLabel = translations[currentLang].levels[currentLevel - 1];
   sweepSpeed = config.speed;
   targetLifetime = config.lifetime;
-  
   levelEl.textContent = `${currentLevel}/5`;
   instructionEl.textContent = `${levelLabel}: (${score}/${TOTAL_TARGETS})`;
 }
 
 function handleTap(e) {
   if (!gameActive || targets.length === 0) return;
-
   initAudio();
-
   const rect = canvas.getBoundingClientRect();
   const clickX = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
   const clickY = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-
   const t = targets[0];
   const dist = Math.hypot(clickX - t.x, clickY - t.y);
-
   if (dist <= t.size + 18) {
     if (targetTimeoutId) clearTimeout(targetTimeoutId);
-    
     score++;
     scoreEl.textContent = `${score}/50`;
     playBeep(800 + (score * 10), 'sine', 0.12);
     targets = [];
-
-    // Escala cada 10 moscas (Niveles 1 a 5)
     const calculatedLevel = Math.min(Math.floor(score / 10) + 1, 5);
-
     if (calculatedLevel > currentLevel && score < TOTAL_TARGETS) {
       currentLevel = calculatedLevel;
       applyLevelConfig();
@@ -897,7 +810,6 @@ function handleTap(e) {
     } else {
       instructionEl.textContent = `${translations[currentLang].discharged} (${score}/${TOTAL_TARGETS})`;
     }
-
     if (score >= TOTAL_TARGETS) {
       endGame();
     } else {
@@ -924,24 +836,22 @@ function endGame() {
   gameActive = false;
   if (targetTimeoutId) clearTimeout(targetTimeoutId);
   cancelAnimationFrame(animationFrameId);
-
   instructionEl.textContent = translations[currentLang].completed;
   playBeep(523, 'triangle', 0.25);
   setTimeout(() => playBeep(659, 'triangle', 0.3), 150);
   setTimeout(() => playBeep(784, 'triangle', 0.4), 300);
-
   modalVictory.classList.add('active');
 }
 
 function resetGame() {
   modalVictory.classList.remove('active');
+  passcodeInput.value = '';
   modalLang.classList.add('active');
   drawRadarGrid();
 }
 
 radarBox.addEventListener('touchstart', (e) => { e.preventDefault(); handleTap(e); }, {passive: false});
 radarBox.addEventListener('mousedown', handleTap);
-
 setTimeout(resizeCanvas, 100);
 </script>
 </body>
