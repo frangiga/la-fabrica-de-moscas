@@ -439,7 +439,7 @@ footer a:hover {
           <li id="txt-step-2">Supera los <strong>5 niveles</strong> de dificultad (10 moscas por nivel, 50 en total).</li>
           <li id="txt-step-3">Al completar el barrido total, se desbloqueará la clave para el <strong>Certitude</strong>.</li>
         </ul>
-        <span class="warning-note" id="txt-warning-note">⚠️ ¡ATENCIÓN! Si se escapa una mosca, el contador de ese nivel se reinicia a cero.</span>
+        <span class="warning-note" id="txt-warning-note">⚠️ ¡ATENCIÓN! Si fallas el tiro o se escapa la mosca, el contador de ese nivel se reinicia a cero.</span>
       </div>
       <button class="btn" id="start-game-btn" onclick="startGame()">INICIAR RADAR</button>
     </div>
@@ -491,7 +491,7 @@ const translations = {
     step1: `Toca/pulsa sobre cada <strong>mosca</strong> ${flyIconSvg} cuando aparezca en el radar.`,
     step2: "Supera los <strong>5 niveles</strong> de dificultad (10 moscas por nivel, 50 en total).",
     step3: "Al completar el barrido total, se desbloqueará la clave para el <strong>Certitude</strong>.",
-    warnNote: "⚠️ ¡ATENCIÓN! Si se escapa una mosca, el contador de ese nivel se reinicia a cero.",
+    warnNote: "⚠️ ¡ATENCIÓN! Si fallas el tiro o se escapa la mosca, el contador de ese nivel se reinicia a cero.",
     startBtn: "INICIAR RADAR",
     vicTitle: "¡PLAGA NEUTRALIZADA!",
     vicDesc: "Comarca protegida con éxito en las 5 fases mediante machos estériles de <em>Ceratitis capitata</em>.",
@@ -499,7 +499,7 @@ const translations = {
     copyBtn: "COPIAR CLAVE",
     copiedBtn: "¡COPIADO!",
     repeatBtn: "REPETIR MISIÓN",
-    missed: "¡Mosca escapada! Reiniciando nivel...",
+    missed: "¡Fallo de disparo! Reiniciando nivel...",
     discharged: "¡Descarga efectuada!",
     completed: "¡Misión completada! Toda la comarca ha sido tratada.",
     standby: "ESPERANDO INICIO...",
@@ -515,7 +515,7 @@ const translations = {
     step1: `Tap/click each <strong>fly</strong> ${flyIconSvg} as it appears on the radar screen.`,
     step2: "Complete all <strong>5 levels</strong> of difficulty (10 flies per level, 50 total).",
     step3: "Upon complete area coverage, the <strong>Certitude</strong> keyword will be revealed.",
-    warnNote: "⚠️ WARNING! If a fly escapes, current level counter resets to zero.",
+    warnNote: "⚠️ WARNING! If you miss or a fly escapes, current level counter resets to zero.",
     startBtn: "START RADAR",
     vicTitle: "PEST NEUTRALIZED!",
     vicDesc: "Region successfully protected across all 5 phases using sterile male <em>Ceratitis capitata</em>.",
@@ -523,7 +523,7 @@ const translations = {
     copyBtn: "COPY KEYWORD",
     copiedBtn: "COPIED!",
     repeatBtn: "REPLAY MISSION",
-    missed: "Fly escaped! Resetting level...",
+    missed: "Shot missed! Resetting level...",
     discharged: "Release successful!",
     completed: "Mission complete! Entire area fully treated.",
     standby: "WAITING TO START...",
@@ -539,7 +539,7 @@ const translations = {
     step1: `Tippen Sie auf jede <strong>Fliege</strong> ${flyIconSvg}, sobald sie auf dem Radar erscheint.`,
     step2: "Meistern Sie <strong>5 Level</strong> (10 Fliegen pro Level, 50 insgesamt).",
     step3: "Nach vollständiger Abdeckung wird das Passwort für <strong>Certitude</strong> freigeschaltet.",
-    warnNote: "⚠️ ACHTUNG! Entkommt eine Fliege, wird der Zähler dieses Levels zurückgesetzt.",
+    warnNote: "⚠️ ACHTUNG! Bei einem Fehlschuss oder Verfehlen wird der Zähler dieses Levels zurückgesetzt.",
     startBtn: "RADAR STARTEN",
     vicTitle: "SCHÄDLING NEUTRALISIERT!",
     vicDesc: "Region in allen 5 Phasen erfolgreich mit sterilen Männchen von <em>Ceratitis capitata</em> geschützt.",
@@ -547,7 +547,7 @@ const translations = {
     copyBtn: "CODE KOPIEREN",
     copiedBtn: "KOPIERT!",
     repeatBtn: "MISSION WIEDERHOLEN",
-    missed: "Fliege entkommen! Level wird zurückgesetzt...",
+    missed: "Fehlschuss! Level wird zurückgesetzt...",
     discharged: "Freisetzung erfolgreich!",
     completed: "Mission abgeschlossen! Das gesamte Gebiet wurde behandelt.",
     standby: "WARTE AUF START...",
@@ -563,7 +563,7 @@ const translations = {
     step1: `Appuyez sur chaque <strong>mouche</strong> ${flyIconSvg} dès qu'elle apparaît sur le radar.`,
     step2: "Franchissez les <strong>5 niveaux</strong> de difficulté (10 mouches par niveau, 50 au total).",
     step3: "Une fois le traitement terminé, le mot de passe <strong>Certitude</strong> sera révélé.",
-    warnNote: "⚠️ ATTENTION ! Si une mouche s'échappe, le compteur du niveau est réinitialisé.",
+    warnNote: "⚠️ ATTENTION ! En cas de tir raté ou d'évasion, le compteur du niveau est réinitialisé.",
     startBtn: "LANCER LE RADAR",
     vicTitle: "RAVAGEUR NEUTRALISÉ !",
     vicDesc: "Région protégée avec succès sur les 5 phases grâce aux mâles stériles de <em>Ceratitis capitata</em>.",
@@ -571,7 +571,7 @@ const translations = {
     copyBtn: "COPIER LE CODE",
     copiedBtn: "COPIÉ !",
     repeatBtn: "REJOUER LA MISSION",
-    missed: "Mouche échappée ! Réinitialisation du niveau...",
+    missed: "Tir raté ! Réinitialisation du niveau...",
     discharged: "Lâcher effectué !",
     completed: "Mission accomplie ! Toute la zone a été traitée.",
     standby: "EN ATTENTE DU DÉMARRAGE...",
@@ -587,7 +587,7 @@ const translations = {
     step1: `Tik op elke <strong>vlieg</strong> ${flyIconSvg} zodra deze op het radarscherm verschijnt.`,
     step2: "Voltooi alle <strong>5 niveaus</strong> (10 vliegen per niveau, 50 in totaal).",
     step3: "Na volledige dekking wordt de sleutel voor <strong>Certitude</strong> ontgrendeld.",
-    warnNote: "⚠️ OPGELET! Als er een vlieg ontsnapt, wordt de teller van dat niveau gereset.",
+    warnNote: "⚠️ OPGELET! Bij een misklik of ontsnapping wordt de teller van dat niveau gereset.",
     startBtn: "RADAR STARTEN",
     vicTitle: "PLAAG GENEUTRALISEERD!",
     vicDesc: "Regio succesvol beschermd in alle 5 fasen met steriele mannetjes van <em>Ceratitis capitata</em>.",
@@ -595,7 +595,7 @@ const translations = {
     copyBtn: "CODE KOPIËREN",
     copiedBtn: "GEKOPIEERD!",
     repeatBtn: "MISSIE HERHALEN",
-    missed: "Vlieg ontsnapt! Niveau wordt gereset...",
+    missed: "Misaschot! Niveau wordt gereset...",
     discharged: "Vrijlating geslaagd!",
     completed: "Missie voltooid! Het gehele gebied is behandeld.",
     standby: "WACHTEN OP START...",
@@ -611,7 +611,7 @@ const translations = {
     step1: `Toque/clique em cada <strong>mosca</strong> ${flyIconSvg} assim que aparecer no radar.`,
     step2: "Supera os <strong>5 níveis</strong> de dificuldade (10 moscas por nível, 50 no total).",
     step3: "Ao completar a cobertura total, a palavra-chave para o <strong>Certitude</strong> será revelada.",
-    warnNote: "⚠️ ATENÇÃO! Se uma mosca escapar, o contador desse nível reinicia a zero.",
+    warnNote: "⚠️ ATENÇÃO! Se falhar o tiro ou a mosca escapar, o contador desse nível reinicia a zero.",
     startBtn: "INICIAR RADAR",
     vicTitle: "PRAGA NEUTRALIZADA!",
     vicDesc: "Região protegida com sucesso nas 5 fases utilizando machos estéreis de <em>Ceratitis capitata</em>.",
@@ -619,7 +619,7 @@ const translations = {
     copyBtn: "COPIAR CÓDIGO",
     copiedBtn: "COPIADO!",
     repeatBtn: "REPETIR MISSÃO",
-    missed: "Mosca escapou! Reiniciando nível...",
+    missed: "Tiro falhado! Reiniciando nível...",
     discharged: "Libertação efetuada!",
     completed: "Missão cumprida! Toda a região foi tratada.",
     standby: "AGUARDANDO INÍCIO...",
@@ -823,6 +823,17 @@ function drawFly(x, y) {
   ctx.restore();
 }
 
+function triggerLevelReset() {
+  if (targetTimeoutId) clearTimeout(targetTimeoutId);
+  playBeep(180, 'square', 0.3);
+  // Reinicia el contador al inicio del nivel actual
+  score = (currentLevel - 1) * 10;
+  scoreEl.textContent = `${score}/50`;
+  instructionEl.textContent = translations[currentLang].missed;
+  targets = [];
+  setTimeout(spawnTarget, 600);
+}
+
 function spawnTarget() {
   if (!gameActive || score >= TOTAL_TARGETS) return;
   if (targetTimeoutId) clearTimeout(targetTimeoutId);
@@ -841,14 +852,7 @@ function spawnTarget() {
   
   targetTimeoutId = setTimeout(() => {
     if (gameActive && targets.length > 0) {
-      playBeep(180, 'square', 0.3);
-      // REINICIO DE NIVELES AL FALLAR: Vuelve al inicio del nivel actual
-      score = (currentLevel - 1) * 10;
-      scoreEl.textContent = `${score}/50`;
-      
-      instructionEl.textContent = translations[currentLang].missed;
-      targets = [];
-      setTimeout(spawnTarget, 600);
+      triggerLevelReset();
     }
   }, targetLifetime);
 }
@@ -894,14 +898,19 @@ function applyLevelConfig() {
 }
 
 function handleTap(e) {
-  if (!gameActive || targets.length === 0) return;
+  if (!gameActive) return;
   initAudio();
   const rect = canvas.getBoundingClientRect();
   const clickX = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
   const clickY = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+  if (targets.length === 0) return;
+
   const t = targets[0];
   const dist = Math.hypot(clickX - t.x, clickY - t.y);
+
   if (dist <= t.size + 18) {
+    // Acierto
     if (targetTimeoutId) clearTimeout(targetTimeoutId);
     score++;
     scoreEl.textContent = `${score}/50`;
@@ -920,6 +929,9 @@ function handleTap(e) {
     } else {
       setTimeout(spawnTarget, 300);
     }
+  } else {
+    // Fallo inmediato por pulsar fuera de la mosca
+    triggerLevelReset();
   }
 }
 
