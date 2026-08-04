@@ -147,6 +147,35 @@ canvas {
 .btn:active {
   background: #ffffff;
 }
+/* Botón secundario para copiar */
+.btn-copy {
+  background: #000000;
+  color: var(--radar-bright);
+  border: 1.5px solid var(--radar-green);
+  padding: 6px 12px;
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-copy:active {
+  background: var(--radar-green);
+  color: #000000;
+}
+.btn-copy.copied {
+  background: var(--radar-green);
+  color: #000000;
+  border-color: var(--radar-green);
+}
+
 /* Footer estructurado en 2 columnas centradas */
 footer {
   width: 100%;
@@ -288,6 +317,9 @@ footer a:hover {
   border: 2px solid var(--radar-green);
   border-radius: 6px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .certitude-label {
   font-size: 0.72rem;
@@ -410,7 +442,10 @@ footer a:hover {
       <p style="font-size: 0.8rem; line-height: 1.35; color: #ffffff; font-weight: 600;" id="txt-vic-desc">Comarca protegida con éxito en las 5 fases mediante machos estériles de <em>Ceratitis capitata</em>.</p>
       <div class="certitude-box">
         <span class="certitude-label" id="lbl-certitude">CLAVE PARA CERTITUDE:</span>
-        <span class="certitude-code">NO-TE-MOSQUEES</span>
+        <span class="certitude-code" id="certitude-code-val">NO-TE-MOSQUEES</span>
+        <button class="btn-copy" id="btn-copy-code" onclick="copyCertitudeCode()">
+          📋 <span id="txt-copy-btn">COPIAR CLAVE</span>
+        </button>
       </div>
       <button class="btn" onclick="resetGame()" id="txt-repeat-btn">REPETIR MISIÓN</button>
     </div>
@@ -450,6 +485,8 @@ const translations = {
     vicTitle: "¡PLAGA NEUTRALIZADA!",
     vicDesc: "Comarca protegida con éxito en las 5 fases mediante machos estériles de <em>Ceratitis capitata</em>.",
     certLabel: "CLAVE PARA CERTITUDE:",
+    copyBtn: "COPIAR CLAVE",
+    copiedBtn: "¡COPIADO!",
     repeatBtn: "REPETIR MISIÓN",
     missed: "¡Mosca escapada! Reactivando escáner...",
     discharged: "¡Descarga efectuada!",
@@ -471,6 +508,8 @@ const translations = {
     vicTitle: "PEST NEUTRALIZED!",
     vicDesc: "Region successfully protected across all 5 phases using sterile male <em>Ceratitis capitata</em>.",
     certLabel: "CERTITUDE KEYWORD:",
+    copyBtn: "COPY KEYWORD",
+    copiedBtn: "COPIED!",
     repeatBtn: "REPLAY MISSION",
     missed: "Fly escaped! Reactivating scanner...",
     discharged: "Release successful!",
@@ -492,6 +531,8 @@ const translations = {
     vicTitle: "SCHÄDLING NEUTRALISIERT!",
     vicDesc: "Region in allen 5 Phasen erfolgreich mit sterilen Männchen von <em>Ceratitis capitata</em> geschützt.",
     certLabel: "CERTITUDE PASSWORT:",
+    copyBtn: "CODE KOPIEREN",
+    copiedBtn: "KOPIERT!",
     repeatBtn: "MISSION WIEDERHOLEN",
     missed: "Fliege entkommen! Scanner wird reaktiviert...",
     discharged: "Freisetzung erfolgreich!",
@@ -513,6 +554,8 @@ const translations = {
     vicTitle: "RAVAGEUR NEUTRALISÉ !",
     vicDesc: "Région protégée avec succès sur les 5 phases grâce aux mâles stériles de <em>Ceratitis capitata</em>.",
     certLabel: "MOT DE PASSE CERTITUDE :",
+    copyBtn: "COPIER LE CODE",
+    copiedBtn: "COPIÉ !",
     repeatBtn: "REJOUER LA MISSION",
     missed: "Mouche échappée ! Réactivation du scanner...",
     discharged: "Lâcher effectué !",
@@ -534,6 +577,8 @@ const translations = {
     vicTitle: "PLAAG GENEUTRALISEERD!",
     vicDesc: "Regio succesvol beschermd in alle 5 fasen met steriele mannetjes van <em>Ceratitis capitata</em>.",
     certLabel: "CERTITUDE SLEUTEL:",
+    copyBtn: "CODE KOPIËREN",
+    copiedBtn: "GEKOPIEERD!",
     repeatBtn: "MISSIE HERHALEN",
     missed: "Vlieg ontsnapt! Scanner heractiveren...",
     discharged: "Vrijlating geslaagd!",
@@ -555,6 +600,8 @@ const translations = {
     vicTitle: "PRAGA NEUTRALIZADA!",
     vicDesc: "Região protegida com sucesso nas 5 fases utilizando machos estéreis de <em>Ceratitis capitata</em>.",
     certLabel: "PALAVRA-CHAVE CERTITUDE:",
+    copyBtn: "COPIAR CÓDIGO",
+    copiedBtn: "COPIADO!",
     repeatBtn: "REPETIR MISSÃO",
     missed: "Mosca escapou! Reativando scanner...",
     discharged: "Libertação efetuada!",
@@ -580,10 +627,10 @@ function selectLanguage(lang) {
   document.getElementById('txt-vic-title').textContent = t.vicTitle;
   document.getElementById('txt-vic-desc').innerHTML = t.vicDesc;
   document.getElementById('lbl-certitude').textContent = t.certLabel;
+  document.getElementById('txt-copy-btn').textContent = t.copyBtn;
   document.getElementById('txt-repeat-btn').textContent = t.repeatBtn;
   instructionEl.textContent = t.standby;
 
-  // Cierra selector de idioma y abre la ventana emergente del código
   modalLang.classList.remove('active');
   modalCode.classList.add('active');
   setTimeout(() => passcodeInput.focus(), 100);
@@ -595,6 +642,43 @@ function checkCode() {
     modalCode.classList.remove('active');
     modalInstructions.classList.add('active');
   }
+}
+
+function copyCertitudeCode() {
+  const code = document.getElementById('certitude-code-val').textContent;
+  const btn = document.getElementById('btn-copy-code');
+  const txtLabel = document.getElementById('txt-copy-btn');
+  const t = translations[currentLang];
+
+  const handleSuccess = () => {
+    btn.classList.add('copied');
+    txtLabel.textContent = t.copiedBtn;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      txtLabel.textContent = t.copyBtn;
+    }, 2000);
+  };
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(code).then(handleSuccess).catch(() => fallbackCopy(code, handleSuccess));
+  } else {
+    fallbackCopy(code, handleSuccess);
+  }
+}
+
+function fallbackCopy(text, callback) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.left = "-999999px";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    callback();
+  } catch (err) {}
+  document.body.removeChild(textArea);
 }
 
 let canvasWidth = 300;
